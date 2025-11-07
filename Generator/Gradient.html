@@ -104,11 +104,6 @@
                         <button id="copyButton" class="mt-2 px-4 py-2 bg-indigo-500 text-white rounded font-medium hover:bg-indigo-600 transition-all">Copy CSS to Clipboard</button>
                     </div>
 
-                    <!-- Tailwind Code Output -->
-                    <div id="tailwindCodeDiv" class="hidden">
-                        <textarea id="tailwindCode" rows="5" readonly class="w-full p-4 rounded-xl border border-slate-300 bg-slate-100 font-mono resize-vertical text-sm leading-relaxed text-slate-900"></textarea>
-                        <button id="copyTailwindButton" class="mt-2 px-4 py-2 bg-indigo-500 text-white rounded font-medium hover:bg-indigo-600 transition-all">Copy Tailwind to Clipboard</button>
-                    </div>
                 </div>
             </div>
 
@@ -194,13 +189,10 @@
         // Get DOM elements
         const previewBox = document.getElementById('previewBox');
         const cssCode = document.getElementById('cssCode');
-        const tailwindCode = document.getElementById('tailwindCode');
         const copyButton = document.getElementById('copyButton');
-        const copyTailwindButton = document.getElementById('copyTailwindButton');
         const cssTab = document.getElementById('cssTab');
         const tailwindTab = document.getElementById('tailwindTab');
         const cssCodeDiv = document.getElementById('cssCodeDiv');
-        const tailwindCodeDiv = document.getElementById('tailwindCodeDiv');
         const color1 = document.getElementById('color1');
         const color2 = document.getElementById('color2');
         const color1Hex = document.getElementById('color1Hex');
@@ -240,7 +232,6 @@
                 tailwindTab.classList.remove('border-b-2', 'border-indigo-500', 'text-slate-900');
                 tailwindTab.classList.add('text-slate-500');
                 cssCodeDiv.classList.remove('hidden');
-                tailwindCodeDiv.classList.add('hidden');
             });
 
             tailwindTab.addEventListener('click', function() {
@@ -248,7 +239,6 @@
                 tailwindTab.classList.remove('text-slate-500');
                 cssTab.classList.remove('border-b-2', 'border-indigo-500');
                 cssCodeDiv.classList.add('hidden');
-                tailwindCodeDiv.classList.remove('hidden');
             });
 
             // Color inputs
@@ -294,24 +284,6 @@
             // Copy CSS button
             copyButton.addEventListener('click', function() {
                 cssCode.select();
-                document.execCommand('copy');
-                
-                // Visual feedback
-                const originalText = this.textContent;
-                this.textContent = 'Copied!';
-                this.classList.add('bg-green-500');
-                this.classList.remove('bg-indigo-500');
-                
-                setTimeout(() => {
-                    this.textContent = originalText;
-                    this.classList.remove('bg-green-500');
-                    this.classList.add('bg-indigo-500');
-                }, 1500);
-            });
-
-            // Copy Tailwind button
-            copyTailwindButton.addEventListener('click', function() {
-                tailwindCode.select();
                 document.execCommand('copy');
                 
                 // Visual feedback
@@ -380,19 +352,9 @@ background: ${gradientStyle};
 /* Color 1: ${color1Value} with opacity ${opacityVal} */
 /* Color 2: ${color2Value} with opacity ${opacityVal} */`;
             
-            // Generate Tailwind code
-            const tailwindCodeText = `<!-- Tailwind Gradient (with custom CSS) -->
-<div class="w-full h-96 rounded-xl" style="background: ${gradientStyle};"></div>
-
-<!-- Or use Tailwind gradient utilities: -->
-<div class="w-full h-96 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600"></div>
-
-<!-- Note: Complex gradients with specific colors and angles -->
-<!-- require inline styles as shown above. -->`;
-            
+        
             // Update code textareas
             cssCode.value = cssCodeText;
-            tailwindCode.value = tailwindCodeText;
         }
 
         // Shuffle colors randomly
