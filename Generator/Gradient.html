@@ -91,12 +91,6 @@
                 <!-- Code Section -->
                 <div class="mt-6">
                     <h3 class="text-xl font-semibold text-indigo-500 mb-4">Generated Code</h3>
-                    
-                    <!-- Tabs for CSS and Tailwind output -->
-                    <div class="flex gap-2 mb-4 border-b border-slate-300">
-                        <button id="cssTab" class="px-4 py-2 font-medium text-slate-900 border-b-2 border-indigo-500 cursor-pointer">CSS</button>
-                        <button id="tailwindTab" class="px-4 py-2 font-medium text-slate-500 cursor-pointer hover:text-slate-900">Tailwind</button>
-                    </div>
 
                     <!-- CSS Code Output -->
                     <div id="cssCodeDiv">
@@ -190,7 +184,6 @@
         const previewBox = document.getElementById('previewBox');
         const cssCode = document.getElementById('cssCode');
         const copyButton = document.getElementById('copyButton');
-        const cssTab = document.getElementById('cssTab');
         const tailwindTab = document.getElementById('tailwindTab');
         const cssCodeDiv = document.getElementById('cssCodeDiv');
         const color1 = document.getElementById('color1');
@@ -225,21 +218,6 @@
 
         // Set up event listeners
         function setupEventListeners() {
-            // Tab switching
-            cssTab.addEventListener('click', function() {
-                cssTab.classList.add('border-b-2', 'border-indigo-500');
-                cssTab.classList.remove('border-b-0');
-                tailwindTab.classList.remove('border-b-2', 'border-indigo-500', 'text-slate-900');
-                tailwindTab.classList.add('text-slate-500');
-                cssCodeDiv.classList.remove('hidden');
-            });
-
-            tailwindTab.addEventListener('click', function() {
-                tailwindTab.classList.add('border-b-2', 'border-indigo-500', 'text-slate-900');
-                tailwindTab.classList.remove('text-slate-500');
-                cssTab.classList.remove('border-b-2', 'border-indigo-500');
-                cssCodeDiv.classList.add('hidden');
-            });
 
             // Color inputs
             color1.addEventListener('input', function() {
