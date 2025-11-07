@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Border Generator | Professional Tool</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- <CHANGE> Custom CSS for input elements that cannot be styled with Tailwind -->
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    /* Slider styling */
+    input[type="range"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 100%;
+      max-width: 150px;
+      height: 8px;
+      border-radius: 10px;
+      background: #ddd;
+      outline: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #4a6fa5;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #4a6fa5;
+      cursor: pointer;
+      border: none;
+    }
+
+    /* Color input styling */
+    input[type="color"] {
+      -webkit-appearance: none;
+      appearance: none;
+      width: 35px;
+      height: 35px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    input[type="color"]::-webkit-color-swatch-wrapper {
+      padding: 0;
+    }
+
+    input[type="color"]::-webkit-color-swatch {
+      border: none;
+      border-radius: 5px;
+    }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-50 text-slate-800 leading-relaxed p-5">
+  <div class="max-w-6xl mx-auto flex flex-col gap-8">
+    <!-- Header -->
+    <header class="text-center mb-5">
+      <h1 class="text-5xl font-bold text-blue-600 mb-2.5">CSS Border Generator</h1>
+      <p class="text-xl text-blue-900">Create beautiful CSS borders with this easy-to-use tool</p>
+    </header>
+
+    <!-- Preview Section -->
+    <div class="flex justify-center items-center">
+      <div class="relative border-2 border-dashed border-blue-900 w-80 h-80 rounded-lg bg-white bg-opacity-50 shadow-md">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-52 h-52 border border-black bg-white flex items-center justify-center transition-all duration-300" id="preview">
+          <span class="text-gray-500 text-sm">Preview</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Controls Section -->
+    <div class="bg-white rounded-lg shadow-md p-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Individual Border Controls -->
+        <div class="bg-slate-50 p-5 rounded-lg shadow-sm">
+          <h3 class="mb-4 text-blue-600 text-xl font-semibold flex items-center gap-2">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+            </svg>
+            Individual Borders
+          </h3>
+          
+          <!-- Top Border -->
+          <div class="mb-4">
+            <h4 class="font-semibold mb-2">Top Border</h4>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Width:
+                <input type="range" id="borderTopWidth" min="0" max="25" value="5">
+                <span class="slider-value font-bold text-blue-600 w-8 text-center" id="borderTopWidthValue">5px</span>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Style:
+                <select id="borderTopStyle" class="p-2 rounded-lg border border-gray-300 bg-white font-inherit text-sm cursor-pointer focus:border-cyan-400 focus:outline-none">
+                  <option value="solid">Solid</option>
+                  <option value="dashed">Dashed</option>
+                  <option value="dotted">Dotted</option>
+                  <option value="double">Double</option>
+                  <option value="groove">Groove</option>
+                  <option value="ridge">Ridge</option>
+                  <option value="inset">Inset</option>
+                  <option value="outset">Outset</option>
+                  <option value="none">None</option>
+                </select>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Color:
+                <input type="color" id="borderTopColor" value="#000000">
+              </label>
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Hex:
+                <input type="text" id="borderTopColorHex" placeholder="#000000" class="p-2 rounded-lg border border-gray-300 w-20 font-inherit text-sm focus:border-cyan-400 focus:outline-none">
+              </label>
+            </div>
+          </div>
+          
+          <!-- Right Border -->
+          <div class="mb-4">
+            <h4 class="font-semibold mb-2">Right Border</h4>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Width:
+                <input type="range" id="borderRightWidth" min="0" max="25" value="5">
+                <span class="slider-value font-bold text-blue-600 w-8 text-center" id="borderRightWidthValue">5px</span>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Style:
+                <select id="borderRightStyle" class="p-2 rounded-lg border border-gray-300 bg-white font-inherit text-sm cursor-pointer focus:border-cyan-400 focus:outline-none">
+                  <option value="solid">Solid</option>
+                  <option value="dashed">Dashed</option>
+                  <option value="dotted">Dotted</option>
+                  <option value="double">Double</option>
+                  <option value="groove">Groove</option>
+                  <option value="ridge">Ridge</option>
+                  <option value="inset">Inset</option>
+                  <option value="outset">Outset</option>
+                  <option value="none">None</option>
+                </select>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Color:
+                <input type="color" id="borderRightColor" value="#000000">
+              </label>
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Hex:
+                <input type="text" id="borderRightColorHex" placeholder="#000000" class="p-2 rounded-lg border border-gray-300 w-20 font-inherit text-sm focus:border-cyan-400 focus:outline-none">
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Bottom and Left Borders -->
+        <div class="bg-slate-50 p-5 rounded-lg shadow-sm">
+          <!-- Bottom Border -->
+          <div class="mb-4">
+            <h4 class="font-semibold mb-2">Bottom Border</h4>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Width:
+                <input type="range" id="borderBottomWidth" min="0" max="25" value="5">
+                <span class="slider-value font-bold text-blue-600 w-8 text-center" id="borderBottomWidthValue">5px</span>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Style:
+                <select id="borderBottomStyle" class="p-2 rounded-lg border border-gray-300 bg-white font-inherit text-sm cursor-pointer focus:border-cyan-400 focus:outline-none">
+                  <option value="solid">Solid</option>
+                  <option value="dashed">Dashed</option>
+                  <option value="dotted">Dotted</option>
+                  <option value="double">Double</option>
+                  <option value="groove">Groove</option>
+                  <option value="ridge">Ridge</option>
+                  <option value="inset">Inset</option>
+                  <option value="outset">Outset</option>
+                  <option value="none">None</option>
+                </select>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-4">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Color:
+                <input type="color" id="borderBottomColor" value="#000000">
+              </label>
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Hex:
+                <input type="text" id="borderBottomColorHex" placeholder="#000000" class="p-2 rounded-lg border border-gray-300 w-20 font-inherit text-sm focus:border-cyan-400 focus:outline-none">
+              </label>
+            </div>
+          </div>
+          
+          <!-- Left Border -->
+          <div>
+            <h4 class="font-semibold mb-2">Left Border</h4>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Width:
+                <input type="range" id="borderLeftWidth" min="0" max="25" value="5">
+                <span class="slider-value font-bold text-blue-600 w-8 text-center" id="borderLeftWidthValue">5px</span>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Style:
+                <select id="borderLeftStyle" class="p-2 rounded-lg border border-gray-300 bg-white font-inherit text-sm cursor-pointer focus:border-cyan-400 focus:outline-none">
+                  <option value="solid">Solid</option>
+                  <option value="dashed">Dashed</option>
+                  <option value="dotted">Dotted</option>
+                  <option value="double">Double</option>
+                  <option value="groove">Groove</option>
+                  <option value="ridge">Ridge</option>
+                  <option value="inset">Inset</option>
+                  <option value="outset">Outset</option>
+                  <option value="none">None</option>
+                </select>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Color:
+                <input type="color" id="borderLeftColor" value="#000000">
+              </label>
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Hex:
+                <input type="text" id="borderLeftColorHex" placeholder="#000000" class="p-2 rounded-lg border border-gray-300 w-20 font-inherit text-sm focus:border-cyan-400 focus:outline-none">
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- All Borders & Background -->
+        <div class="bg-slate-50 p-5 rounded-lg shadow-sm">
+          <h3 class="mb-4 text-blue-600 text-xl font-semibold flex items-center gap-2">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <line x1="3" y1="9" x2="21" y2="9" />
+              <line x1="3" y1="15" x2="21" y2="15" />
+              <line x1="9" y1="3" x2="9" y2="21" />
+              <line x1="15" y1="3" x2="15" y2="21" />
+            </svg>
+            All Borders & Background
+          </h3>
+          
+          <div class="mb-4">
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-3">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                All Borders Width:
+                <input type="range" id="borderWidth" min="0" max="25" value="5">
+                <span class="slider-value font-bold text-blue-600 w-8 text-center" id="borderWidthValue">5px</span>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                All Borders Color:
+                <input type="color" id="borderColor" value="#000000">
+              </label>
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Hex:
+                <input type="text" id="borderColorHex" placeholder="#000000" class="p-2 rounded-lg border border-gray-300 w-20 font-inherit text-sm focus:border-cyan-400 focus:outline-none">
+              </label>
+            </div>
+          </div>
+          
+          <div>
+            <h4 class="font-semibold mb-2">Background</h4>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Background Color:
+                <input type="color" id="bgColor" value="#FFFFFF">
+              </label>
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Hex:
+                <input type="text" id="bgColorHex" placeholder="#FFFFFF" class="p-2 rounded-lg border border-gray-300 w-20 font-inherit text-sm focus:border-cyan-400 focus:outline-none">
+              </label>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Output Section -->
+    <div class="bg-white rounded-lg shadow-md p-8">
+      <h3 class="mb-4 text-blue-600 font-semibold">Generated CSS Code</h3>
+      <textarea id="codeOutput" readonly class="w-full min-h-32 p-4 rounded-lg border border-gray-300 bg-gray-100 font-mono resize-vertical text-sm leading-relaxed"></textarea>
+      <button id="copyButton" class="mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg cursor-pointer font-inherit text-sm transition-all duration-300 hover:bg-blue-900">Copy to Clipboard</button>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center mt-8 text-blue-900 text-sm">
+      <p>CSS Border Generator Tool © 2025 | Made with ❤️</p>
+    </footer>
+  </div>
+
+  <script>
+    // ... existing code ...
+    function rgbToHex(rgb) {
+      if (!rgb || rgb.startsWith('#') || !rgb.startsWith('rgb')) {
+        return rgb;
+      }
+      
+      const rgbValues = rgb.match(/^rgb$$(\d+),\s*(\d+),\s*(\d+)$$$/);
+      if (!rgbValues) return rgb;
+      
+      function toHex(value) {
+        const hex = parseInt(value, 10).toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+      }
+      
+      return `#${toHex(rgbValues[1])}${toHex(rgbValues[2])}${toHex(rgbValues[3])}`.toUpperCase();
+    }
+    
+    const elements = {
+      borderWidth: document.getElementById('borderWidth'),
+      borderTopWidth: document.getElementById('borderTopWidth'),
+      borderRightWidth: document.getElementById('borderRightWidth'),
+      borderBottomWidth: document.getElementById('borderBottomWidth'),
+      borderLeftWidth: document.getElementById('borderLeftWidth'),
+      
+      borderTopStyle: document.getElementById('borderTopStyle'),
+      borderRightStyle: document.getElementById('borderRightStyle'),
+      borderBottomStyle: document.getElementById('borderBottomStyle'),
+      borderLeftStyle: document.getElementById('borderLeftStyle'),
+      
+      borderColor: document.getElementById('borderColor'),
+      borderTopColor: document.getElementById('borderTopColor'),
+      borderRightColor: document.getElementById('borderRightColor'),
+      borderBottomColor: document.getElementById('borderBottomColor'),
+      borderLeftColor: document.getElementById('borderLeftColor'),
+      
+      borderColorHex: document.getElementById('borderColorHex'),
+      borderTopColorHex: document.getElementById('borderTopColorHex'),
+      borderRightColorHex: document.getElementById('borderRightColorHex'),
+      borderBottomColorHex: document.getElementById('borderBottomColorHex'),
+      borderLeftColorHex: document.getElementById('borderLeftColorHex'),
+      
+      bgColor: document.getElementById('bgColor'),
+      bgColorHex: document.getElementById('bgColorHex'),
+      
+      preview: document.getElementById('preview'),
+      codeOutput: document.getElementById('codeOutput'),
+      
+      borderWidthValue: document.getElementById('borderWidthValue'),
+      borderTopWidthValue: document.getElementById('borderTopWidthValue'),
+      borderRightWidthValue: document.getElementById('borderRightWidthValue'),
+      borderBottomWidthValue: document.getElementById('borderBottomWidthValue'),
+      borderLeftWidthValue: document.getElementById('borderLeftWidthValue'),
+      
+      copyButton: document.getElementById('copyButton')
+    };
+    
+    function updatePreview() {
+      const topWidth = elements.borderTopWidth.value;
+      const rightWidth = elements.borderRightWidth.value;
+      const bottomWidth = elements.borderBottomWidth.value;
+      const leftWidth = elements.borderLeftWidth.value;
+      
+      const topStyle = elements.borderTopStyle.value;
+      const rightStyle = elements.borderRightStyle.value;
+      const bottomStyle = elements.borderBottomStyle.value;
+      const leftStyle = elements.borderLeftStyle.value;
+      
+      const topColor = elements.borderTopColor.value;
+      const rightColor = elements.borderRightColor.value;
+      const bottomColor = elements.borderBottomColor.value;
+      const leftColor = elements.borderLeftColor.value;
+      
+      const bgColorValue = elements.bgColor.value;
+      
+      elements.borderTopWidthValue.innerText = `${topWidth}px`;
+      elements.borderRightWidthValue.innerText = `${rightWidth}px`;
+      elements.borderBottomWidthValue.innerText = `${bottomWidth}px`;
+      elements.borderLeftWidthValue.innerText = `${leftWidth}px`;
+      elements.borderWidthValue.innerText = `${elements.borderWidth.value}px`;
+      
+      const previewStyle = `
+        border-top: ${topWidth}px ${topStyle} ${topColor};
+        border-right: ${rightWidth}px ${rightStyle} ${rightColor};
+        border-bottom: ${bottomWidth}px ${bottomStyle} ${bottomColor};
+        border-left: ${leftWidth}px ${leftStyle} ${leftColor};
+        background-color: ${bgColorValue};
+      `;
+      
+      elements.preview.style.cssText = previewStyle;
+      
+      const formattedCSS = `/* CSS Border Code */
+border-top: ${topWidth}px ${topStyle} ${topColor};
+border-right: ${rightWidth}px ${rightStyle} ${rightColor};
+border-bottom: ${bottomWidth}px ${bottomStyle} ${bottomColor};
+border-left: ${leftWidth}px ${leftStyle} ${leftColor};
+background-color: ${bgColorValue};
+
+/* Shorthand (if all sides are the same) */
+${topWidth === rightWidth && rightWidth === bottomWidth && bottomWidth === leftWidth ? 
+  `border-width: ${topWidth}px;\n` : ''}
+${topStyle === rightStyle && rightStyle === bottomStyle && bottomStyle === leftStyle ? 
+  `border-style: ${topStyle};\n` : ''}
+${topColor === rightColor && rightColor === bottomColor && bottomColor === leftColor ? 
+  `border-color: ${topColor};\n` : ''}`;
+      
+      elements.codeOutput.value = formattedCSS;
+      
+      elements.borderTopColorHex.value = topColor;
+      elements.borderRightColorHex.value = rightColor;
+      elements.borderBottomColorHex.value = bottomColor;
+      elements.borderLeftColorHex.value = leftColor;
+      elements.borderColorHex.value = elements.borderColor.value;
+      elements.bgColorHex.value = bgColorValue;
+    }
+    
+    function setupEventListeners() {
+      elements.borderWidth.addEventListener('input', () => {
+        const value = elements.borderWidth.value;
+        elements.borderTopWidth.value = value;
+        elements.borderRightWidth.value = value;
+        elements.borderBottomWidth.value = value;
+        elements.borderLeftWidth.value = value;
+        updatePreview();
+      });
+      
+      elements.borderColor.addEventListener('input', () => {
+        const value = elements.borderColor.value;
+        elements.borderTopColor.value = value;
+        elements.borderRightColor.value = value;
+        elements.borderBottomColor.value = value;
+        elements.borderLeftColor.value = value;
+        elements.borderColorHex.value = value;
+        updatePreview();
+      });
+      
+      elements.borderTopWidth.addEventListener('input', updatePreview);
+      elements.borderRightWidth.addEventListener('input', updatePreview);
+      elements.borderBottomWidth.addEventListener('input', updatePreview);
+      elements.borderLeftWidth.addEventListener('input', updatePreview);
+      
+      elements.borderTopStyle.addEventListener('change', updatePreview);
+      elements.borderRightStyle.addEventListener('change', updatePreview);
+      elements.borderBottomStyle.addEventListener('change', updatePreview);
+      elements.borderLeftStyle.addEventListener('change', updatePreview);
+      
+      elements.borderTopColor.addEventListener('input', () => {
+        elements.borderTopColorHex.value = elements.borderTopColor.value;
+        updatePreview();
+      });
+      
+      elements.borderRightColor.addEventListener('input', () => {
+        elements.borderRightColorHex.value = elements.borderRightColor.value;
+        updatePreview();
+      });
+      
+      elements.borderBottomColor.addEventListener('input', () => {
+        elements.borderBottomColorHex.value = elements.borderBottomColor.value;
+        updatePreview();
+      });
+      
+      elements.borderLeftColor.addEventListener('input', () => {
+        elements.borderLeftColorHex.value = elements.borderLeftColor.value;
+        updatePreview();
+      });
+      
+      elements.bgColor.addEventListener('input', () => {
+        elements.bgColorHex.value = elements.bgColor.value;
+        updatePreview();
+      });
+      
+      elements.borderTopColorHex.addEventListener('input', function() {
+        if (this.value.startsWith('#') && (this.value.length === 4 || this.value.length === 7)) {
+          elements.borderTopColor.value = this.value;
+          updatePreview();
+        }
+      });
+      
+      elements.borderRightColorHex.addEventListener('input', function() {
+        if (this.value.startsWith('#') && (this.value.length === 4 || this.value.length === 7)) {
+          elements.borderRightColor.value = this.value;
+          updatePreview();
+        }
+      });
+      
+      elements.borderBottomColorHex.addEventListener('input', function() {
+        if (this.value.startsWith('#') && (this.value.length === 4 || this.value.length === 7)) {
+          elements.borderBottomColor.value = this.value;
+          updatePreview();
+        }
+      });
+      
+      elements.borderLeftColorHex.addEventListener('input', function() {
+        if (this.value.startsWith('#') && (this.value.length === 4 || this.value.length === 7)) {
+          elements.borderLeftColor.value = this.value;
+          updatePreview();
+        }
+      });
+      
+      elements.borderColorHex.addEventListener('input', function() {
+        if (this.value.startsWith('#') && (this.value.length === 4 || this.value.length === 7)) {
+          elements.borderColor.value = this.value;
+          elements.borderTopColor.value = this.value;
+          elements.borderRightColor.value = this.value;
+          elements.borderBottomColor.value = this.value;
+          elements.borderLeftColor.value = this.value;
+          updatePreview();
+        }
+      });
+      
+      elements.bgColorHex.addEventListener('input', function() {
+        if (this.value.startsWith('#') && (this.value.length === 4 || this.value.length === 7)) {
+          elements.bgColor.value = this.value;
+          updatePreview();
+        }
+      });
+      
+      elements.copyButton.addEventListener('click', () => {
+        elements.codeOutput.select();
+        document.execCommand('copy');
+        
+        const originalText = elements.copyButton.textContent;
+        elements.copyButton.textContent = 'Copied!';
+        elements.copyButton.style.backgroundColor = '#4CAF50';
+        
+        setTimeout(() => {
+          elements.copyButton.textContent = originalText;
+          elements.copyButton.style.backgroundColor = '';
+        }, 1500);
+      });
+    }
+    
+    function initializeDefaults() {
+      elements.borderTopColorHex.value = elements.borderTopColor.value;
+      elements.borderRightColorHex.value = elements.borderRightColor.value;
+      elements.borderBottomColorHex.value = elements.borderBottomColor.value;
+      elements.borderLeftColorHex.value = elements.borderLeftColor.value;
+      elements.borderColorHex.value = elements.borderColor.value;
+      elements.bgColorHex.value = elements.bgColor.value;
+    }
+    
+    function init() {
+      setupEventListeners();
+      initializeDefaults();
+      updatePreview();
+    }
+    
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>

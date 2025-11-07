@@ -1,0 +1,533 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CSS Filter Generator | Professional Tool</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <style>
+    /* Custom CSS for slider thumb styling and other elements that require CSS-specific features */
+    * {
+      font-family: 'Poppins', sans-serif;
+    }
+
+    @keyframes gradient {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    body {
+      background: linear-gradient(135deg, #60a5fa, #3b82f6, #2563eb);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
+    }
+
+    input[type="range"] {
+      width: 100%;
+      height: 8px;
+      border-radius: 10px;
+      background: #e2e8f0;
+      outline: none;
+      -webkit-appearance: none;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #3b82f6;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      border-radius: 50%;
+      background: #3b82f6;
+      cursor: pointer;
+      border: none;
+    }
+
+    .upload-btn-wrapper input[type=file] {
+      font-size: 100px;
+      position: absolute;
+      left: 0;
+      top: 0;
+      opacity: 0;
+      cursor: pointer;
+    }
+
+    .backdrop-blur-md {
+      backdrop-filter: blur(10px);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col overflow-x-hidden">
+  <div class="max-w-7xl w-full mx-auto p-4 flex flex-col flex-1">
+    <!-- Header -->
+    <header class="text-center py-4 mb-4">
+      <h1 class="text-4xl font-bold text-white mb-2 drop-shadow">CSS Filter Generator</h1>
+      <p class="text-white text-opacity-90 text-base">Create beautiful image filters with this easy-to-use tool</p>
+    </header>
+
+    <!-- Main Content -->
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_350px] gap-6 flex-1 mb-6">
+      <!-- Left Panel -->
+      <div class="flex flex-col gap-6">
+        <!-- Preview Container -->
+        <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-8 flex flex-col gap-6 shadow-lg flex-1">
+          <!-- Image Preview -->
+          <div class="flex justify-center items-center flex-1 min-h-80 relative">
+            <img id="previewImage" src="https://images.unsplash.com/photo-1682687982501-1e58ab814714" alt="Preview Image" class="max-w-full max-h-96 object-contain rounded-lg transition-all duration-300 shadow-md">
+          </div>
+
+          <!-- Image Upload -->
+          <div class="flex justify-center items-center">
+            <div class="upload-btn-wrapper relative overflow-hidden inline-block cursor-pointer">
+              <button class="border-2 border-white text-white bg-white bg-opacity-10 px-5 py-2 rounded-lg text-base font-medium cursor-pointer transition-all duration-300 hover:bg-opacity-20">
+                Upload Your Image
+              </button>
+              <input type="file" id="imageInput" accept="image/*">
+            </div>
+          </div>
+        </div>
+
+        <!-- Code Output Container -->
+        <div class="bg-white rounded-lg shadow-lg p-6">
+          <h3 class="text-blue-500 mb-4 text-xl font-semibold">Generated Code</h3>
+          
+          <!-- Tabs for CSS and Tailwind code output -->
+          <div class="flex gap-2 mb-4 border-b border-gray-200">
+            <button class="code-tab-btn active px-4 py-2 text-sm font-medium border-b-2 border-blue-500 text-blue-500 transition-all" data-tab="css">CSS</button>
+            <button class="code-tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-600 hover:text-gray-800 transition-all" data-tab="tailwind">Tailwind</button>
+          </div>
+
+          <!-- CSS Code Output -->
+          <textarea id="codeOutputCSS" class="w-full min-h-32 p-4 rounded-lg border border-gray-300 bg-gray-50 font-mono text-sm leading-relaxed resize-none" readonly></textarea>
+
+          <!-- Tailwind Code Output (hidden by default) -->
+          <textarea id="codeOutputTailwind" class="w-full min-h-32 p-4 rounded-lg border border-gray-300 bg-gray-50 font-mono text-sm leading-relaxed resize-none hidden" readonly></textarea>
+
+          <button id="copyButton" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg cursor-pointer font-sans text-sm transition-all duration-300 hover:bg-blue-700">
+            Copy to Clipboard
+          </button>
+        </div>
+      </div>
+
+      <!-- Controls Section -->
+      <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col h-fit lg:h-full">
+        <!-- Controls Header -->
+        <div class="flex justify-between items-center mb-6">
+          <h2 class="text-xl font-semibold text-blue-500">Filter Controls</h2>
+
+          <!-- Preset Dropdown -->
+          <div class="preset-dropdown relative">
+            <button id="presetToggle" class="px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg cursor-pointer font-inherit text-sm transition-all duration-300 hover:bg-gray-200 flex items-center gap-2">
+              Presets
+              <svg id="presetIcon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" class="transition-transform duration-300">
+                <polyline points="6 9 12 15 18 9"></polyline>
+              </svg>
+            </button>
+            <div id="presetMenu" class="absolute top-full right-0 w-40 bg-white rounded-lg shadow-md p-1 z-10 hidden">
+              <div class="preset-item px-4 py-2 cursor-pointer rounded-sm transition-all duration-300 hover:bg-gray-100" data-preset="normal">Normal</div>
+              <div class="preset-item px-4 py-2 cursor-pointer rounded-sm transition-all duration-300 hover:bg-gray-100" data-preset="vintage">Vintage</div>
+              <div class="preset-item px-4 py-2 cursor-pointer rounded-sm transition-all duration-300 hover:bg-gray-100" data-preset="bw">B&W</div>
+              <div class="preset-item px-4 py-2 cursor-pointer rounded-sm transition-all duration-300 hover:bg-gray-100" data-preset="dramatic">Dramatic</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Filter Controls -->
+        <div class="filter-controls flex flex-col gap-6 overflow-y-auto flex-1 pr-2">
+          <!-- Basic Adjustments -->
+          <div class="filter-group bg-gray-100 rounded-lg p-6">
+            <h3 class="text-blue-500 mb-4 text-lg font-semibold flex items-center gap-2">Basic Adjustments</h3>
+
+            <div class="mb-4 last:mb-0">
+              <div class="flex justify-between mb-2 font-medium">
+                <span>Brightness</span>
+                <span class="filter-value text-blue-600 font-bold" id="brightnessValue">100%</span>
+              </div>
+              <input type="range" id="brightness" class="slider" min="0" max="200" value="100">
+            </div>
+
+            <div class="mb-4 last:mb-0">
+              <div class="flex justify-between mb-2 font-medium">
+                <span>Contrast</span>
+                <span class="filter-value text-blue-600 font-bold" id="contrastValue">100%</span>
+              </div>
+              <input type="range" id="contrast" class="slider" min="0" max="200" value="100">
+            </div>
+
+            <div class="mb-0">
+              <div class="flex justify-between mb-2 font-medium">
+                <span>Saturation</span>
+                <span class="filter-value text-blue-600 font-bold" id="saturateValue">100%</span>
+              </div>
+              <input type="range" id="saturate" class="slider" min="0" max="200" value="100">
+            </div>
+          </div>
+
+          <!-- Color Effects -->
+          <div class="filter-group bg-gray-100 rounded-lg p-6">
+            <h3 class="text-blue-500 mb-4 text-lg font-semibold flex items-center gap-2">Color Effects</h3>
+
+            <div class="mb-4 last:mb-0">
+              <div class="flex justify-between mb-2 font-medium">
+                <span>Grayscale</span>
+                <span class="filter-value text-blue-600 font-bold" id="grayscaleValue">0%</span>
+              </div>
+              <input type="range" id="grayscale" class="slider" min="0" max="100" value="0">
+            </div>
+
+            <div class="mb-4 last:mb-0">
+              <div class="flex justify-between mb-2 font-medium">
+                <span>Sepia</span>
+                <span class="filter-value text-blue-600 font-bold" id="sepiaValue">0%</span>
+              </div>
+              <input type="range" id="sepia" class="slider" min="0" max="100" value="0">
+            </div>
+
+            <div class="mb-4 last:mb-0">
+              <div class="flex justify-between mb-2 font-medium">
+                <span>Hue Rotate</span>
+                <span class="filter-value text-blue-600 font-bold" id="hueRotateValue">0deg</span>
+              </div>
+              <input type="range" id="hueRotate" class="slider" min="0" max="360" value="0">
+            </div>
+
+            <div class="mb-0">
+              <div class="flex justify-between mb-2 font-medium">
+                <span>Invert</span>
+                <span class="filter-value text-blue-600 font-bold" id="invertValue">0%</span>
+              </div>
+              <input type="range" id="invert" class="slider" min="0" max="100" value="0">
+            </div>
+          </div>
+
+          <!-- Advanced Effects -->
+          <div class="filter-group bg-gray-100 rounded-lg p-6">
+            <h3 class="text-blue-500 mb-4 text-lg font-semibold flex items-center gap-2">Advanced Effects</h3>
+
+            <div class="mb-4 last:mb-0">
+              <div class="flex justify-between mb-2 font-medium">
+                <span>Blur</span>
+                <span class="filter-value text-blue-600 font-bold" id="blurRadiusValue">0px</span>
+              </div>
+              <input type="range" id="blurRadius" class="slider" min="0" max="20" value="0">
+            </div>
+
+            <div class="mb-0">
+              <div class="flex justify-between mb-2 font-medium">
+                <span>Opacity</span>
+                <span class="filter-value text-blue-600 font-bold" id="opacityValue">100%</span>
+              </div>
+              <input type="range" id="opacity" class="slider" min="0" max="100" value="100">
+            </div>
+          </div>
+        </div>
+
+        <!-- Reset Button -->
+        <button id="resetButton" class="mt-6 px-4 py-3 bg-gray-200 text-gray-700 rounded-lg cursor-pointer font-inherit text-base transition-all duration-300 hover:bg-gray-300 flex items-center justify-center gap-2">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+            <path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"></path>
+            <path d="M9 12l2 2 4-4"></path>
+          </svg>
+          Reset All Filters
+        </button>
+      </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center py-4 text-white text-sm drop-shadow mt-auto">
+      <p>CSS Filter Generator Tool &copy; 2025 | Made with ❤️</p>
+    </footer>
+  </div>
+
+  <script>
+    // Get all DOM elements
+    const previewImage = document.getElementById('previewImage');
+    const sliders = document.querySelectorAll('.slider');
+    const codeOutputCSS = document.getElementById('codeOutputCSS');
+    const codeOutputTailwind = document.getElementById('codeOutputTailwind');
+    const resetButton = document.getElementById('resetButton');
+    const copyButton = document.getElementById('copyButton');
+    const imageInput = document.getElementById('imageInput');
+    const presetDropdown = document.querySelector('.preset-dropdown');
+    const presetToggle = document.getElementById('presetToggle');
+    const presetMenu = document.getElementById('presetMenu');
+    const presetIcon = document.getElementById('presetIcon');
+    const presetItems = document.querySelectorAll('.preset-item');
+    const codeTabBtns = document.querySelectorAll('.code-tab-btn');
+
+    let activeCodeTab = 'css';
+
+    // Store initial values for reset functionality
+    const initialValues = {};
+    sliders.forEach(slider => {
+      initialValues[slider.id] = slider.value;
+    });
+
+    // Apply filters to the preview image
+    function applyFilters() {
+      // Get all filter values
+      const blurRadius = document.getElementById('blurRadius').value + 'px';
+      const brightness = document.getElementById('brightness').value + '%';
+      const contrast = document.getElementById('contrast').value + '%';
+      const grayscale = document.getElementById('grayscale').value + '%';
+      const hueRotate = document.getElementById('hueRotate').value + 'deg';
+      const invert = document.getElementById('invert').value + '%';
+      const opacity = document.getElementById('opacity').value + '%';
+      const saturate = document.getElementById('saturate').value + '%';
+      const sepia = document.getElementById('sepia').value + '%';
+
+      // Apply filters to the image
+      previewImage.style.filter = `blur(${blurRadius}) brightness(${brightness}) contrast(${contrast}) grayscale(${grayscale}) hue-rotate(${hueRotate}) invert(${invert}) opacity(${opacity}) saturate(${saturate}) sepia(${sepia})`;
+
+      // Update the display values
+      document.getElementById('blurRadiusValue').textContent = blurRadius;
+      document.getElementById('brightnessValue').textContent = brightness;
+      document.getElementById('contrastValue').textContent = contrast;
+      document.getElementById('grayscaleValue').textContent = grayscale;
+      document.getElementById('hueRotateValue').textContent = hueRotate;
+      document.getElementById('invertValue').textContent = invert;
+      document.getElementById('opacityValue').textContent = opacity;
+      document.getElementById('saturateValue').textContent = saturate;
+      document.getElementById('sepiaValue').textContent = sepia;
+
+      // Update the code output
+      updateCodeOutput();
+    }
+
+    // Update the code output textarea
+    function updateCodeOutput() {
+      const blur = document.getElementById('blurRadius').value;
+      const brightness = document.getElementById('brightness').value;
+      const contrast = document.getElementById('contrast').value;
+      const grayscale = document.getElementById('grayscale').value;
+      const hueRotate = document.getElementById('hueRotate').value;
+      const invert = document.getElementById('invert').value;
+      const opacity = document.getElementById('opacity').value;
+      const saturate = document.getElementById('saturate').value;
+      const sepia = document.getElementById('sepia').value;
+
+      // CSS Output
+      const cssCode = `/* CSS Filter Code */
+filter: blur(${blur}px) 
+        brightness(${brightness}%) 
+        contrast(${contrast}%) 
+        grayscale(${grayscale}%) 
+        hue-rotate(${hueRotate}deg) 
+        invert(${invert}%) 
+        opacity(${opacity}%) 
+        saturate(${saturate}%) 
+        sepia(${sepia}%);
+
+/* For older browsers */
+-webkit-filter: blur(${blur}px) 
+               brightness(${brightness}%) 
+               contrast(${contrast}%) 
+               grayscale(${grayscale}%) 
+               hue-rotate(${hueRotate}deg) 
+               invert(${invert}%) 
+               opacity(${opacity}%) 
+               saturate(${saturate}%) 
+               sepia(${sepia}%);`;
+
+      // Tailwind Output (using inline styles as Tailwind doesn't support filter CSS directly)
+      const tailwindCode = `<!-- Tailwind CSS Approach -->
+<!-- Note: Tailwind doesn't have built-in filter utilities, use inline style or create custom utilities -->
+
+<img 
+  src="image.jpg" 
+  alt="Filtered image"
+  style="filter: blur(${blur}px) brightness(${brightness}%) contrast(${contrast}%) grayscale(${grayscale}%) hue-rotate(${hueRotate}deg) invert(${invert}%) opacity(${opacity}%) saturate(${saturate}%) sepia(${sepia}%)"
+  class="max-w-full rounded-lg shadow-md"
+>
+
+<!-- Alternative: Create custom Tailwind config for reusable filter classes -->
+<!-- In your globals.css or tailwind.config.js: -->
+@layer components {
+  .filter-vintage {
+    @apply brightness-110 contrast-[0.85] saturate-75;
+    filter: sepia(40%);
+  }
+  
+  .filter-bw {
+    @apply brightness-100 contrast-[1.2] saturate-0;
+  }
+  
+  .filter-dramatic {
+    @apply brightness-110 contrast-[1.5] saturate-[1.2];
+  }
+}`;
+
+      codeOutputCSS.value = cssCode;
+      codeOutputTailwind.value = tailwindCode;
+    }
+
+    // Apply preset filter configurations
+    function applyPreset(preset) {
+      switch(preset) {
+        case 'normal':
+          // Reset to default values
+          sliders.forEach(slider => {
+            slider.value = initialValues[slider.id];
+          });
+          break;
+          
+        case 'vintage':
+          document.getElementById('brightness').value = 110;
+          document.getElementById('contrast').value = 85;
+          document.getElementById('saturate').value = 75;
+          document.getElementById('sepia').value = 40;
+          document.getElementById('grayscale').value = 0;
+          document.getElementById('hueRotate').value = 0;
+          document.getElementById('invert').value = 0;
+          document.getElementById('blurRadius').value = 0;
+          document.getElementById('opacity').value = 100;
+          break;
+          
+        case 'bw':
+          document.getElementById('brightness').value = 100;
+          document.getElementById('contrast').value = 120;
+          document.getElementById('saturate').value = 0;
+          document.getElementById('sepia').value = 0;
+          document.getElementById('grayscale').value = 100;
+          document.getElementById('hueRotate').value = 0;
+          document.getElementById('invert').value = 0;
+          document.getElementById('blurRadius').value = 0;
+          document.getElementById('opacity').value = 100;
+          break;
+          
+        case 'dramatic':
+          document.getElementById('brightness').value = 110;
+          document.getElementById('contrast').value = 150;
+          document.getElementById('saturate').value = 120;
+          document.getElementById('sepia').value = 0;
+          document.getElementById('grayscale').value = 0;
+          document.getElementById('hueRotate').value = 0;
+          document.getElementById('invert').value = 0;
+          document.getElementById('blurRadius').value = 0;
+          document.getElementById('opacity').value = 100;
+          break;
+      }
+      
+      applyFilters();
+      
+      // Close the preset dropdown
+      presetDropdown.classList.remove('open');
+      presetMenu.classList.add('hidden');
+      presetIcon.style.transform = 'rotate(0deg)';
+    }
+
+    // Set up event listeners
+    function setupEventListeners() {
+      // Add input event listeners to all sliders
+      sliders.forEach(slider => {
+        slider.addEventListener('input', applyFilters);
+      });
+      
+      // Image upload functionality
+      imageInput.addEventListener('change', function(event) {
+        const file = event.target.files[0];
+        if (file) {
+          const reader = new FileReader();
+          
+          reader.onload = function(e) {
+            previewImage.src = e.target.result;
+          };
+          
+          reader.readAsDataURL(file);
+        }
+      });
+      
+      // Reset button functionality
+      resetButton.addEventListener('click', function() {
+        sliders.forEach(slider => {
+          slider.value = initialValues[slider.id];
+        });
+        
+        applyFilters();
+      });
+      
+      // Copy button functionality
+      copyButton.addEventListener('click', function() {
+        const activeTextarea = activeCodeTab === 'css' ? codeOutputCSS : codeOutputTailwind;
+        activeTextarea.select();
+        document.execCommand('copy');
+        
+        // Visual feedback
+        const originalText = this.textContent;
+        this.textContent = 'Copied!';
+        this.style.backgroundColor = '#10b981';
+        
+        setTimeout(() => {
+          this.textContent = originalText;
+          this.style.backgroundColor = '';
+        }, 1500);
+      });
+      
+      // Preset dropdown toggle
+      presetToggle.addEventListener('click', function() {
+        presetMenu.classList.toggle('hidden');
+        presetIcon.style.transform = presetMenu.classList.contains('hidden') ? 'rotate(0deg)' : 'rotate(180deg)';
+      });
+      
+      // Close preset dropdown when clicking outside
+      document.addEventListener('click', function(event) {
+        if (!presetDropdown.contains(event.target)) {
+          presetMenu.classList.add('hidden');
+          presetIcon.style.transform = 'rotate(0deg)';
+        }
+      });
+      
+      // Preset items
+      presetItems.forEach(item => {
+        item.addEventListener('click', function() {
+          applyPreset(this.dataset.preset);
+        });
+      });
+
+      // Code tab switching
+      codeTabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const tabName = this.dataset.tab;
+          
+          // Update active state
+          codeTabBtns.forEach(b => {
+            b.classList.remove('active', 'border-b-2', 'border-blue-500', 'text-blue-500');
+            b.classList.add('border-transparent', 'text-gray-600');
+          });
+          
+          this.classList.add('active', 'border-b-2', 'border-blue-500', 'text-blue-500');
+          this.classList.remove('border-transparent', 'text-gray-600');
+          
+          // Toggle textarea visibility
+          if (tabName === 'css') {
+            codeOutputCSS.classList.remove('hidden');
+            codeOutputTailwind.classList.add('hidden');
+          } else {
+            codeOutputCSS.classList.add('hidden');
+            codeOutputTailwind.classList.remove('hidden');
+          }
+          
+          activeCodeTab = tabName;
+        });
+      });
+    }
+
+    // Initialize the application
+    function init() {
+      setupEventListeners();
+      applyFilters();
+    }
+
+    // Start the app when DOM is loaded
+    document.addEventListener('DOMContentLoaded', init);
+  </script>
+</body>
+</html>
