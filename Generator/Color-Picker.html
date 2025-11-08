@@ -3,9 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Professional Image Color Picker</title>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
+  <title>StyleGen - Image Color Picker</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap">
   <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
   <style>
     :root {
       --primary-color: #4f46e5;
@@ -26,15 +27,13 @@
     }
 
     body {
-      font-family: 'Poppins', sans-serif;
+      font-family: 'Oswald', sans-serif;
     }
 
-    /* Custom styling for elements that can't be done with Tailwind */
     input[type="file"] {
       display: none;
     }
 
-    /* Custom crosshair styling */
     .crosshair {
       position: absolute;
       width: 20px;
@@ -68,128 +67,126 @@
       top: 50%;
       transform: translateY(-50%);
     }
+
+    #image {
+      max-width: 100%;
+      max-height: 100%;
+      width: auto;
+      height: auto;
+      object-fit: contain;
+    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-gray-200 text-gray-700 leading-relaxed min-h-screen flex flex-col overflow-x-hidden">
-  <div class="max-w-7xl w-full mx-auto px-4 flex flex-col flex-1">
-    <!-- Header -->
-    <header class="text-center py-4 mb-4">
-      <h1 class="text-4xl font-bold text-indigo-600 mb-2">Image Color Picker</h1>
-      <p class="text-base text-gray-700 opacity-90">Upload an image and extract colors with precision</p>
+<body class="bg-gradient-to-br from-[#f5fbfc] to-[#e8f4f6] text-gray-700 leading-relaxed min-h-screen flex flex-col overflow-x-hidden">
+  <nav class="bg-white shadow-sm border-b border-[#9fced6]/20">
+    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <i class='bx bx-palette text-[#1bc5ba] text-2xl'></i>
+        <h1 class="text-xl font-bold text-[#1bc5ba]">StyleGen</h1>
+      </div>
+      <div class="flex gap-6 text-sm text-gray-600">
+        <a href="#" class="hover:text-[#1bc5ba] transition">Home</a>
+        <a href="#" class="hover:text-[#1bc5ba] transition">Docs</a>
+        <a href="#" class="hover:text-[#1bc5ba] transition">GitHub</a>
+      </div>
+    </div>
+  </nav>
+
+  <div class="max-w-7xl w-full mx-auto px-4 flex flex-col flex-1 py-8">
+    <header class="text-center mb-8">
+      <h2 class="text-4xl font-bold text-[#1bc5ba] mb-2">Image Color Picker</h2>
+      <p class="text-base text-gray-600">Upload an image and extract colors with precision</p>
     </header>
 
-    <!-- Main Content -->
-    <div class="grid grid-cols-1 lg:grid-cols-[1fr_400px] gap-6 flex-1 mb-6">
-      <!-- Image Section -->
-      <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col gap-6 relative">
-        <!-- Image Container -->
-        <div class="relative flex justify-center items-center flex-1 min-h-96 rounded-lg overflow-hidden bg-slate-100" id="image-container">
-          <div class="flex flex-col items-center justify-center p-12 bg-slate-100 rounded-lg border-2 border-dashed border-slate-300 w-full h-full" id="placeholder">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-20 h-20 text-slate-400 mb-5">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-            <p class="text-slate-500 text-center">No image selected. Upload an image to get started.</p>
-          </div>
-          <img id="image" src="/placeholder.svg" class="hidden max-w-full max-h-full object-contain" />
-          <canvas id="color-canvas"></canvas>
-          <div class="crosshair" id="crosshair"></div>
-        </div>
+    <div class="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 flex-1 mb-8">
+      <div class="bg-white rounded-lg shadow-md p-6 flex flex-col gap-6" style="border: 2px solid #9fced6/30;">
         
-        <!-- Image Controls -->
+      <div class="relative flex justify-center items-center bg-slate-50 rounded-lg overflow-hidden w-full" id="image-container" style="aspect-ratio: 1;">
+        <div class="flex flex-col items-center justify-center p-12 bg-slate-50 rounded-lg border-2 border-dashed border-[#9fced6] w-full h-full" id="placeholder">
+          <i class='bx bx-image text-4xl text-[#9fced6] mb-4'></i>
+          <p class="text-slate-500 text-center">No image selected. Upload an image to get started.</p>
+        </div>
+        <img id="image" src="/placeholder.svg" class="absolute top-0 left-0 w-full h-full object-contain hidden" />
+        <canvas id="color-canvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+        <div class="crosshair" id="crosshair"></div>
+      </div>
+
+        
         <div class="flex gap-4 flex-wrap">
           <input type="file" id="file" accept="image/*" />
-          <label for="file" class="inline-flex items-center justify-center px-5 py-3 bg-indigo-600 text-white border-none rounded-lg font-inherit text-sm cursor-pointer transition-all hover:bg-indigo-700 gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-8l-4-4m0 0L8 8m4-4v12" />
-            </svg>
+          <label for="file" class="inline-flex items-center justify-center px-5 py-3 bg-[#1bc5ba] text-white border-none rounded-lg font-semibold text-sm cursor-pointer transition-all hover:bg-[#15a89e] gap-2 flex-1 sm:flex-none">
+            <i class='bx bx-upload'></i>
             Upload Image
           </label>
-          <button id="pick-color" class="inline-flex items-center justify-center px-5 py-3 bg-transparent text-indigo-600 border-2 border-indigo-600 rounded-lg font-inherit text-sm cursor-pointer transition-all hover:bg-indigo-600 hover:text-white gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-            </svg>
+          <button id="manual-pick" class="inline-flex items-center justify-center px-5 py-3 bg-white text-[#1bc5ba] border-2 border-[#1bc5ba] rounded-lg font-semibold text-sm cursor-pointer transition-all hover:bg-[#1bc5ba] hover:text-white gap-2 flex-1 sm:flex-none">
+            <i class='bx bx-crosshair'></i>
             Pick Color
-          </button>
-          <button id="manual-pick" class="inline-flex items-center justify-center px-5 py-3 bg-transparent text-indigo-600 border-2 border-indigo-600 rounded-lg font-inherit text-sm cursor-pointer transition-all hover:bg-indigo-600 hover:text-white gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-4 h-4">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 15l-2 5L9 9l11 4-5 2zm0 0l5 5M7.188 2.239l.777 2.897M5.136 7.965l-2.898-.777M13.95 4.05l-2.122 2.122m-5.657 5.656l-2.12 2.122" />
-            </svg>
-            Manual Pick
           </button>
         </div>
         
-        <!-- Error Message -->
         <div id="error" class="hidden text-red-600 px-3 py-3 bg-red-50 rounded-lg text-sm"></div>
       </div>
 
-      <!-- Controls Panel -->
-      <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col gap-6">
-        <!-- Selected Color Section -->
+      <div class="bg-white rounded-lg shadow-md p-6 flex flex-col gap-6 h-fit sticky top-20" style="border: 2px solid #9fced6/30;">
         <div class="flex flex-col gap-4">
-          <h3 class="text-lg font-semibold text-indigo-600 flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-            </svg>
+          <h3 class="text-lg font-semibold text-[#1bc5ba] flex items-center gap-2">
+            <i class='bx bx-droplet'></i>
             Selected Color
           </h3>
-          <div class="flex flex-col gap-4">
-            <div class="h-20 rounded-lg shadow-md transition-all" id="picked-color-ref"></div>
+          <div class="flex flex-col gap-3">
+            <div class="h-20 rounded-lg shadow-md transition-all border-2 border-[#9fced6]/50" id="picked-color-ref" style="background-color: #9fced6;"></div>
             <div class="flex items-center gap-2">
-              <input type="text" id="hex-val-ref" placeholder="Hex Value" readonly class="flex-1 px-4 py-3 border border-gray-300 rounded-lg font-inherit text-sm" />
-              <button onclick="copy('hex-val-ref')" class="px-4 py-3 bg-indigo-600 text-white border-none rounded-lg cursor-pointer transition-all hover:bg-indigo-700 text-sm">Copy</button>
+              <input type="text" id="hex-val-ref" placeholder="Hex Value" readonly class="flex-1 px-4 py-2 border-2 border-[#9fced6]/50 rounded-lg font-inherit text-sm focus:outline-none focus:border-[#1bc5ba]" />
+              <button onclick="copy('hex-val-ref')" class="px-4 py-2 bg-[#1bc5ba] text-white border-none rounded-lg cursor-pointer transition-all hover:bg-[#15a89e] text-sm font-semibold">Copy</button>
             </div>
             <div class="flex items-center gap-2">
-              <input type="text" id="rgb-val-ref" placeholder="RGB Value" readonly class="flex-1 px-4 py-3 border border-gray-300 rounded-lg font-inherit text-sm" />
-              <button onclick="copy('rgb-val-ref')" class="px-4 py-3 bg-indigo-600 text-white border-none rounded-lg cursor-pointer transition-all hover:bg-indigo-700 text-sm">Copy</button>
+              <input type="text" id="rgb-val-ref" placeholder="RGB Value" readonly class="flex-1 px-4 py-2 border-2 border-[#9fced6]/50 rounded-lg font-inherit text-sm focus:outline-none focus:border-[#1bc5ba]" />
+              <button onclick="copy('rgb-val-ref')" class="px-4 py-2 bg-[#1bc5ba] text-white border-none rounded-lg cursor-pointer transition-all hover:bg-[#15a89e] text-sm font-semibold">Copy</button>
             </div>
           </div>
         </div>
 
-        <!-- Instruction Box -->
-        <div class="px-4 py-4 bg-slate-100 rounded-lg border-l-4 border-indigo-400 text-sm">
-          <p>Click <span class="text-indigo-600 font-semibold">Upload Image</span> to select an image, then click <span class="text-indigo-600 font-semibold">Pick Color</span> to use the eyedropper tool or <span class="text-indigo-600 font-semibold">Manual Pick</span> to click directly on the image.</p>
+        <div class="px-4 py-3 bg-[#9fced6]/10 rounded-lg border-l-4 border-[#1bc5ba] text-xs leading-relaxed">
+          <p><span class="font-semibold">1.</span> Upload an image</p>
+          <p><span class="font-semibold">2.</span> Click "Pick Color"</p>
+          <p><span class="font-semibold">3.</span> Click on any color in the image</p>
         </div>
 
-        <!-- Color Palette Section -->
         <div class="flex flex-col gap-4">
-          <h3 class="text-lg font-semibold text-indigo-600 flex items-center gap-2">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor" class="w-5 h-5">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
-            </svg>
-            Color Palette
+          <h3 class="text-lg font-semibold text-[#1bc5ba] flex items-center gap-2">
+            <i class='bx bx-palette'></i>
+            Palette
           </h3>
-          <div id="palette-container" class="grid grid-cols-[repeat(auto-fill,minmax(40px,1fr))] gap-3"></div>
+          <div id="palette-container" class="grid grid-cols-4 gap-2"></div>
         </div>
       </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="text-center py-4 text-gray-700 text-sm mt-auto">
-      <p>Image Color Picker Tool © 2025 | Made with ❤️</p>
+    <div class="bg-white rounded-lg shadow-md p-6" style="border: 2px solid #9fced6/30;">
+      <div class="flex items-center justify-between mb-4">
+        <h3 class="text-lg font-semibold text-[#1bc5ba] flex items-center gap-2">
+          <i class='bx bx-code'></i>
+          Output Code
+        </h3>
+        <button onclick="copyCode()" class="px-4 py-2 bg-[#1bc5ba] text-white border-none rounded-lg cursor-pointer transition-all hover:bg-[#15a89e] text-sm font-semibold">
+          <i class='bx bx-copy-alt'></i> Copy
+        </button>
+      </div>
+      <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-xs"><code id="code-output">/* Your extracted colors will appear here */
+/* HEX: #9fced6 */
+/* RGB: rgb(159, 206, 214) */</code></pre>
+    </div>
+
+    <footer class="text-center py-8 text-slate-500 text-sm mt-auto">
+      <p>Created by Je-ric</p>
     </footer>
   </div>
 
-  <!-- Custom Alert -->
-  <div id="custom-alert" class="fixed bottom-5 right-5 px-6 py-4 bg-indigo-600 text-white rounded-lg shadow-lg transform translate-y-28 opacity-0 transition-all z-50">
-    Color Code Copied!
-  </div>
-
-  <!-- Code Output Tabs -->
-  <div class="fixed bottom-20 right-5 z-40" style="display: none;">
-    <div class="bg-white rounded-lg shadow-lg">
-      <div class="flex border-b">
-        <button class="px-4 py-2 font-semibold text-indigo-600 border-b-2 border-indigo-600">CSS</button>
-        <button class="px-4 py-2 font-semibold text-gray-600">Tailwind</button>
-      </div>
-      <div class="p-4 max-h-64 overflow-y-auto w-96">
-        <pre id="code-output" class="text-xs bg-gray-100 p-2 rounded overflow-x-auto"><code></code></pre>
-      </div>
-    </div>
+  <div id="custom-alert" class="fixed bottom-5 right-5 px-6 py-3 bg-[#1bc5ba] text-white rounded-lg shadow-lg transform translate-y-28 opacity-0 transition-all z-50 text-sm font-semibold">
+    Copied to clipboard!
   </div>
 
   <script>
-    // Create Initial references
-    let pickColor = document.getElementById("pick-color");
     let manualPick = document.getElementById("manual-pick");
     let error = document.getElementById("error");
     let fileInput = document.getElementById("file");
@@ -203,80 +200,16 @@
     let canvas = document.getElementById('color-canvas');
     let ctx = canvas.getContext('2d');
     let crosshair = document.getElementById('crosshair');
-    let eyeDropper;
     let isManualPickActive = false;
 
-    // Function On Window Load
-    window.onload = () => {
-      // Check if the browser supports eyedropper
-      if ("EyeDropper" in window) {
-        pickColor.style.display = "inline-flex";
-        eyeDropper = new EyeDropper();
-      } else {
-        error.classList.add("block");
-        error.classList.remove("hidden");
-        error.innerText = "Your browser doesn't support Eyedropper API. Try using Chrome or Edge or use the Manual Pick option.";
-        pickColor.style.display = "none";
-      }
-    };
-
-    // Function to update the canvas size
     const updateCanvasSize = () => {
-      // Get the displayed dimensions of the image
       const rect = image.getBoundingClientRect();
       canvas.width = image.naturalWidth;
       canvas.height = image.naturalHeight;
-      
-      // Draw the image on the canvas
       ctx.drawImage(image, 0, 0, canvas.width, canvas.height);
     };
 
-    // Eyedropper logic
-    const colorSelector = async () => {
-      try {
-        // Check if an image is loaded
-        if (image.style.display === "none") {
-          error.classList.add("block");
-          error.classList.remove("hidden");
-          error.innerText = "Please upload an image first.";
-          return;
-        }
-
-        const colorValue = await eyeDropper.open();
-        
-        error.classList.add("hidden");
-        error.classList.remove("block");
-        
-        // Get the hex color code
-        let hexValue = colorValue.sRGBHex;
-        
-        // Convert Hex Value To RGB
-        let rgbArr = [];
-        for (let i = 1; i < hexValue.length; i += 2) {
-          rgbArr.push(parseInt(hexValue[i] + hexValue[i + 1], 16));
-        }
-        let rgbValue = "rgb(" + rgbArr.join(",") + ")";
-        
-        // Update UI with color values
-        hexValRef.value = hexValue;
-        rgbValRef.value = rgbValue;
-        pickedColorRef.style.backgroundColor = hexValue;
-      } catch (err) {
-        // If user presses escape to close the eyedropper
-        if (err.toString().includes("AbortError")) {
-          error.classList.add("hidden");
-          error.classList.remove("block");
-        } else {
-          error.classList.add("block");
-          error.classList.remove("hidden");
-          error.innerText = err;
-        }
-      }
-    };
-
-    // Manual color picking from the image
     const setupManualPick = () => {
-      // Check if an image is loaded
       if (image.style.display === "none") {
         error.classList.add("block");
         error.classList.remove("hidden");
@@ -287,114 +220,87 @@
       error.classList.add("hidden");
       error.classList.remove("block");
       
-      // Toggle manual pick mode
       isManualPickActive = !isManualPickActive;
       
       if (isManualPickActive) {
-        manualPick.style.backgroundColor = "#6366f1";
+        manualPick.style.backgroundColor = "#1bc5ba";
         manualPick.style.color = "white";
-        
-        // Show crosshair
         imageContainer.style.cursor = "crosshair";
-        
-        // Add mousemove event to show color under cursor
         imageContainer.addEventListener("mousemove", showColorUnderCursor);
-        
-        // Add click event to pick color
         imageContainer.addEventListener("click", pickColorFromImage);
       } else {
         manualPick.style.backgroundColor = "";
         manualPick.style.color = "";
-        
-        // Hide crosshair
         crosshair.style.display = "none";
         imageContainer.style.cursor = "default";
-        
-        // Remove event listeners
         imageContainer.removeEventListener("mousemove", showColorUnderCursor);
         imageContainer.removeEventListener("click", pickColorFromImage);
       }
     };
 
-    // Show color under cursor
     const showColorUnderCursor = (e) => {
       if (!isManualPickActive) return;
       
-      // Get cursor position relative to the image
       const rect = image.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       
-      // Show crosshair at cursor position
       crosshair.style.display = "block";
       crosshair.style.left = `${e.clientX}px`;
       crosshair.style.top = `${e.clientY}px`;
       
-      // Calculate the position on the original image
       const scaleX = image.naturalWidth / rect.width;
       const scaleY = image.naturalHeight / rect.height;
       
       const originalX = Math.floor(x * scaleX);
       const originalY = Math.floor(y * scaleY);
       
-      // Get pixel color from canvas
       if (originalX >= 0 && originalX < canvas.width && originalY >= 0 && originalY < canvas.height) {
         const pixelData = ctx.getImageData(originalX, originalY, 1, 1).data;
         const r = pixelData[0];
         const g = pixelData[1];
         const b = pixelData[2];
         
-        // Update crosshair background color
         crosshair.style.backgroundColor = `rgb(${r}, ${g}, ${b})`;
       }
     };
 
-    // Pick color from image on click
     const pickColorFromImage = (e) => {
       if (!isManualPickActive) return;
       
-      // Get cursor position relative to the image
       const rect = image.getBoundingClientRect();
       const x = e.clientX - rect.left;
       const y = e.clientY - rect.top;
       
-      // Calculate the position on the original image
       const scaleX = image.naturalWidth / rect.width;
       const scaleY = image.naturalHeight / rect.height;
       
       const originalX = Math.floor(x * scaleX);
       const originalY = Math.floor(y * scaleY);
       
-      // Get pixel color from canvas
       if (originalX >= 0 && originalX < canvas.width && originalY >= 0 && originalY < canvas.height) {
         const pixelData = ctx.getImageData(originalX, originalY, 1, 1).data;
         const r = pixelData[0];
         const g = pixelData[1];
         const b = pixelData[2];
         
-        // Convert to hex
         const hexValue = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
         const rgbValue = `rgb(${r}, ${g}, ${b})`;
         
-        // Update UI with color values
         hexValRef.value = hexValue;
         rgbValRef.value = rgbValue;
         pickedColorRef.style.backgroundColor = hexValue;
+        
+        updateCodeOutput();
       }
     };
 
-    // Add click event listener to the pick color button
-    pickColor.addEventListener("click", colorSelector);
-    
-    // Add click event listener to the manual pick button
     manualPick.addEventListener("click", setupManualPick);
 
-    // Function to extract colors from the image
     const extractColors = () => {
       let colors = [];
       let numColors = 8;
 
-      // Create a temporary canvas to extract colors
       let tempCanvas = document.createElement('canvas');
       let tempCtx = tempCanvas.getContext('2d');
       tempCanvas.width = image.naturalWidth;
@@ -407,7 +313,6 @@
 
       let colorCounts = {};
 
-      // Sample pixels at regular intervals to improve performance
       const pixelSkip = Math.max(1, Math.floor((data.length / 4) / 10000));
       
       for (let i = 0; i < data.length; i += 4 * pixelSkip) {
@@ -416,33 +321,27 @@
         let b = data[i + 2];
         let a = data[i + 3];
         
-        if (a > 0) { // Ensure color is not transparent
+        if (a > 0) {
           let hex = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
           colorCounts[hex] = (colorCounts[hex] || 0) + 1;
         }
       }
 
-      // Sort colors by frequency
       colors = Object.keys(colorCounts).sort((a, b) => colorCounts[b] - colorCounts[a]);
-
-      // Limit to numColors colors
       colors = colors.slice(0, numColors);
 
-      // Display colors in palette
       const paletteContainer = document.getElementById('palette-container');
       paletteContainer.innerHTML = '';
       
       colors.forEach(color => {
         let colorDiv = document.createElement('div');
-        colorDiv.classList.add('w-full', 'aspect-square', 'rounded-lg', 'shadow-md', 'cursor-pointer', 'transition-all', 'hover:scale-105', 'hover:shadow-lg');
+        colorDiv.classList.add('w-full', 'aspect-square', 'rounded-lg', 'shadow-md', 'cursor-pointer', 'transition-all', 'hover:scale-110', 'hover:shadow-lg', 'border', 'border-[#9fced6]/30');
         colorDiv.style.backgroundColor = color;
-        colorDiv.title = color; // Show color code on hover
+        colorDiv.title = color;
         
-        // Add click event to select this color
         colorDiv.addEventListener('click', () => {
           hexValRef.value = color;
           
-          // Convert hex to RGB
           let r = parseInt(color.slice(1, 3), 16);
           let g = parseInt(color.slice(3, 5), 16);
           let b = parseInt(color.slice(5, 7), 16);
@@ -450,13 +349,23 @@
           
           rgbValRef.value = rgbValue;
           pickedColorRef.style.backgroundColor = color;
+          
+          updateCodeOutput();
         });
         
         paletteContainer.appendChild(colorDiv);
       });
     };
 
-    // Function to handle file input change
+    const updateCodeOutput = () => {
+      const hex = hexValRef.value;
+      const rgb = rgbValRef.value;
+      
+      if (hex) {
+        document.getElementById('code-output').textContent = `/* Extracted Color */\nHEX: ${hex}\nRGB: ${rgb}`;
+      }
+    };
+
     fileInput.onchange = () => {
       if (fileInput.files.length === 0) return;
       
@@ -467,33 +376,35 @@
         image.setAttribute("src", reader.result);
         
         image.onload = () => {
-          // Show the image and hide placeholder
           image.classList.remove("hidden");
           placeholder.classList.add("hidden");
           
-          updateCanvasSize(); // Update canvas size when new image is loaded
-          extractColors(); // Update color palette when new image is uploaded
+          updateCanvasSize();
+          extractColors();
           
-          // Clear any previous error messages
           error.classList.add("hidden");
           error.classList.remove("block");
+          
+          if (isManualPickActive) {
+            isManualPickActive = false;
+            manualPick.style.backgroundColor = "";
+            manualPick.style.color = "";
+            crosshair.style.display = "none";
+            imageContainer.style.cursor = "default";
+            imageContainer.removeEventListener("mousemove", showColorUnderCursor);
+            imageContainer.removeEventListener("click", pickColorFromImage);
+          }
         };
       };
     };
 
-    // Function to copy the color code
     const copy = (textId) => {
-      // Check if there's a value to copy
       const textElement = document.getElementById(textId);
       if (!textElement.value) return;
       
-      // Selects the text in the <input> element
       textElement.select();
-      
-      // Copies the selected text to clipboard
       document.execCommand("copy");
       
-      // Display Alert
       customAlert.classList.remove("translate-y-28", "opacity-0");
       customAlert.classList.add("translate-y-0", "opacity-100");
       
@@ -501,6 +412,21 @@
         customAlert.classList.add("translate-y-28", "opacity-0");
         customAlert.classList.remove("translate-y-0", "opacity-100");
       }, 2000);
+    };
+
+    const copyCode = () => {
+      const codeElement = document.getElementById('code-output');
+      const text = codeElement.textContent;
+      
+      navigator.clipboard.writeText(text).then(() => {
+        customAlert.classList.remove("translate-y-28", "opacity-0");
+        customAlert.classList.add("translate-y-0", "opacity-100");
+        
+        setTimeout(() => {
+          customAlert.classList.add("translate-y-28", "opacity-0");
+          customAlert.classList.remove("translate-y-0", "opacity-100");
+        }, 2000);
+      });
     };
   </script>
 </body>
