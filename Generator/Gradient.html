@@ -4,14 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gradient Generator</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Updated font from Poppins to Oswald -->
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Added Boxicons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        /* Design tokens for consistent theming */
+        /* Updated design tokens to match guide palette */
         :root {
-            --primary-color: #4f46e5;
-            --secondary-color: #818cf8;
-            --accent-color: #c7d2fe;
+            --primary-color: #1bc5ba;
+            --accent-color: #9fced6;
+            --background-color: #f5fbfc;
             --dark-text: #1e293b;
             --light-text: #f8fafc;
             --border-radius: 12px;
@@ -20,10 +23,10 @@
         }
 
         body {
-            font-family: 'Poppins', sans-serif;
+            font-family: 'Oswald', sans-serif;
+            background-color: var(--background-color);
         }
 
-        /* Custom styling for color input and range slider (cannot be done with Tailwind) */
         input[type="color"]::-webkit-color-swatch-wrapper {
             padding: 0;
         }
@@ -60,132 +63,162 @@
         }
 
         select:focus {
-            border-color: var(--secondary-color);
-            box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.2);
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 2px rgba(27, 197, 186, 0.2);
         }
 
         input[type="text"]:focus {
-            border-color: var(--secondary-color);
+            border-color: var(--primary-color);
             outline: none;
-            box-shadow: 0 0 0 2px rgba(129, 140, 248, 0.2);
+            box-shadow: 0 0 0 2px rgba(27, 197, 186, 0.2);
+        }
+
+        /* Make code output scrollable instead of page */
+        #cssCodeDiv {
+            overflow-y: auto;
+            max-height: 120px;
         }
     </style>
 </head>
-<body class="min-h-screen bg-gradient-to-br from-black to-white text-slate-100 flex flex-col overflow-x-hidden">
-    <div class="w-full max-w-6xl mx-auto px-4 flex-1 flex flex-col py-4">
+<body class="flex flex-col h-screen">
+    <!-- Added navbar with StyleGen branding -->
+    <nav class="bg-white shadow-sm border-b border-gray-200 px-6 py-3">
+        <div class="flex items-center justify-between">
+            <div class="flex items-center gap-2">
+                <i class='bx bxs-palette text-3xl' style="color: var(--primary-color);"></i>
+                <h1 class="text-2xl font-bold" style="color: var(--primary-color);">StyleGen</h1>
+            </div>
+            <div class="flex gap-6 text-sm font-medium text-slate-600">
+                <a href="#" class="hover:text-slate-900">Home</a>
+                <a href="#" class="hover:text-slate-900">Docs</a>
+                <a href="#" class="hover:text-slate-900">GitHub</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main content with flex-1 and overflow handling for two-column layout -->
+    <div class="flex-1 overflow flex flex-col px-6 py-6">
         <!-- Header -->
-        <header class="text-center mb-6">
-            <h1 class="text-5xl font-bold mb-2 drop-shadow-lg">Gradient Generator</h1>
-            <p class="text-lg opacity-90">Create beautiful gradient backgrounds with this easy-to-use tool</p>
-        </header>
+        <div class="text-center mb-4">
+            <h2 class="text-4xl font-bold text-slate-800 mb-1">Gradient Generator</h2>
+            <p class="text-sm text-slate-600">Create beautiful gradient backgrounds</p>
+        </div>
 
-        <!-- Main Content -->
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6 flex-1 mb-6">
+        <!-- Main Content - Two Column Layout -->
+        <div class="flex-1 overflow-hidden grid grid-cols-1 lg:grid-cols-4 gap-6 min-h-0">
             <!-- Preview Section -->
-            <div class="lg:col-span-3 bg-white/10 backdrop-blur-lg rounded-xl p-8 flex flex-col gap-6 shadow-lg">
-                <!-- Preview Box -->
-                <div id="previewBox" class="flex-1 min-h-80 rounded-xl border-2 border-dashed border-white/50 flex justify-center items-center relative overflow-hidden">
-                    <div class="absolute top-2.5 left-2.5 bg-black/50 px-2.5 py-1.5 rounded text-xs">Preview</div>
-                </div>
+            <div class="lg:col-span-3 bg-white rounded-xl shadow-md p-6 flex flex-col overflow-hidden">
+                <!-- Preview Box - Square aspect ratio, fixed size -->
+<div id="previewBox" class="w-full h-48 rounded-xl border-2 border-gray-300 flex justify-center items-center relative overflow-hidden bg-gradient-to-br from-gray-900 to-gray-100 mb-4">
+    <div class="absolute top-2.5 left-2.5 bg-black/50 px-2.5 py-1.5 rounded text-xs text-white font-medium">Preview</div>
+</div>
 
-                <!-- Code Section -->
-                <div class="mt-6">
-                    <h3 class="text-xl font-semibold text-indigo-500 mb-4">Generated Code</h3>
 
-                    <!-- CSS Code Output -->
-                    <div id="cssCodeDiv">
-                        <textarea id="cssCode" rows="5" readonly class="w-full p-4 rounded-xl border border-slate-300 bg-slate-100 font-mono resize-vertical text-sm leading-relaxed text-slate-900"></textarea>
-                        <button id="copyButton" class="mt-2 px-4 py-2 bg-indigo-500 text-white rounded font-medium hover:bg-indigo-600 transition-all">Copy CSS to Clipboard</button>
-                    </div>
 
-                </div>
+                <!-- Code Output Section - Scrollable -->
+ <div>
+    <div class="flex items-center gap-2 mb-3">
+        <i class='bx bx-code text-xl' style="color: var(--primary-color);"></i>
+        <h3 class="text-lg font-semibold" style="color: var(--primary-color);">Generated Code</h3>
+    </div>
+
+    <div id="cssCodeDiv" class="bg-slate-900 rounded-lg p-4 mb-3 border border-slate-700">
+        <textarea id="cssCode" readonly 
+                  class="w-full p-0 bg-transparent font-mono text-xs text-slate-100 border-none focus:outline-none leading-relaxed"
+                  style="height: 200px;"></textarea>
+    </div>
+
+    <button id="copyButton" class="px-4 py-2 text-white rounded font-medium transition-all hover:opacity-90 flex items-center justify-center gap-2" style="background-color: var(--primary-color);">
+        <i class='bx bx-copy text-base'></i>
+        Copy CSS
+    </button>
+</div>
+
+
+
             </div>
 
-            <!-- Controls Section -->
-            <div class="bg-white rounded-xl shadow-lg p-6 flex flex-col text-slate-900">
-                <h2 class="text-xl font-semibold text-indigo-500 mb-6 flex items-center gap-2">Customize Gradient</h2>
+            <!-- Controls Section - Scrollable -->
+            <div class="bg-white rounded-xl shadow-md p-5 flex flex-col overflow-y-auto text-slate-900">
+                <h2 class="text-lg font-bold mb-4 flex items-center gap-2" style="color: var(--primary-color);">
+                    <i class='bx bx-sliders text-xl'></i>
+                    Customize
+                </h2>
 
                 <!-- Gradient Type -->
-                <div class="mb-6 pb-6 border-b border-slate-200 last:border-b-0 last:mb-0 last:pb-0">
-                    <h3 class="font-semibold text-indigo-500 mb-4 text-lg">Gradient Type</h3>
-                    <div class="flex items-center gap-2">
-                        <label for="direction" class="font-medium min-w-max">Direction:</label>
-                        <select id="direction" class="flex-1 px-2 py-2 rounded border border-slate-300 bg-white font-inherit text-sm cursor-pointer outline-none">
-                            <option value="linear">Linear</option>
-                            <option value="radial">Radial</option>
-                        </select>
-                    </div>
+                <div class="mb-4 pb-4 border-b border-gray-200">
+                    <h3 class="font-semibold text-sm mb-2" style="color: var(--primary-color);">Type</h3>
+                    <select id="direction" class="w-full px-3 py-2 rounded border border-gray-300 bg-white text-sm cursor-pointer focus:outline-none" style="border-color: var(--accent-color);">
+                        <option value="linear">Linear</option>
+                        <option value="radial">Radial</option>
+                    </select>
                 </div>
 
                 <!-- Colors -->
-                <div class="mb-6 pb-6 border-b border-slate-200">
-                    <h3 class="font-semibold text-indigo-500 mb-4 text-lg">Colors</h3>
+                <div class="mb-4 pb-4 border-b border-gray-200">
+                    <h3 class="font-semibold text-sm mb-3" style="color: var(--primary-color);">Colors</h3>
                     
                     <!-- Color 1 -->
-                    <div class="flex items-center gap-2 mb-4">
-                        <label for="color1" class="font-medium min-w-max">Color 1:</label>
-                        <input type="color" id="color1" value="#000000" class="w-10 h-10 rounded cursor-pointer">
-                        <input type="text" id="color1Hex" placeholder="Hex" value="#000000" class="px-2 py-1 rounded border border-slate-300 text-sm w-24 font-inherit text-slate-900">
+                    <div class="flex items-center gap-2 mb-3">
+                        <input type="color" id="color1" value="#000000" class="w-8 h-8 rounded cursor-pointer flex-shrink-0">
+                        <input type="text" id="color1Hex" placeholder="Hex" value="#000000" class="flex-1 px-2 py-1 rounded border border-gray-300 text-xs font-mono focus:outline-none">
                     </div>
 
                     <!-- Color 2 -->
-                    <div class="flex items-center gap-2 mb-4">
-                        <label for="color2" class="font-medium min-w-max">Color 2:</label>
-                        <input type="color" id="color2" value="#ffffff" class="w-10 h-10 rounded cursor-pointer">
-                        <input type="text" id="color2Hex" placeholder="Hex" value="#ffffff" class="px-2 py-1 rounded border border-slate-300 text-sm w-24 font-inherit text-slate-900">
+                    <div class="flex items-center gap-2 mb-3">
+                        <input type="color" id="color2" value="#ffffff" class="w-8 h-8 rounded cursor-pointer flex-shrink-0">
+                        <input type="text" id="color2Hex" placeholder="Hex" value="#ffffff" class="flex-1 px-2 py-1 rounded border border-gray-300 text-xs font-mono focus:outline-none">
                     </div>
 
                     <!-- Shuffle Button -->
-                    <button id="shuffleButton" class="w-full px-4 py-2 bg-indigo-500 text-white rounded font-medium hover:bg-indigo-600 transition-all inline-flex items-center justify-center gap-2 mb-4">
-                        Shuffle Colors
+                    <button id="shuffleButton" class="w-full px-3 py-2 text-white rounded font-medium transition-all text-sm mb-3 flex items-center justify-center gap-2" style="background-color: var(--primary-color);">
+                        <i class='bx bx-shuffle'></i>
+                        Shuffle
                     </button>
 
                     <!-- Presets -->
-                    <h3 class="font-semibold text-indigo-500 mb-3 text-lg mt-4">Presets</h3>
+                    <h3 class="font-semibold text-sm mb-2" style="color: var(--primary-color);">Presets</h3>
                     <div class="flex flex-wrap gap-2">
-                        <div class="w-8 h-8 rounded border border-slate-300 cursor-pointer hover:scale-110 transition-transform" style="background: linear-gradient(45deg, #ff9a9e, #fad0c4);" data-color1="#ff9a9e" data-color2="#fad0c4"></div>
-                        <div class="w-8 h-8 rounded border border-slate-300 cursor-pointer hover:scale-110 transition-transform" style="background: linear-gradient(45deg, #a18cd1, #fbc2eb);" data-color1="#a18cd1" data-color2="#fbc2eb"></div>
-                        <div class="w-8 h-8 rounded border border-slate-300 cursor-pointer hover:scale-110 transition-transform" style="background: linear-gradient(45deg, #84fab0, #8fd3f4);" data-color1="#84fab0" data-color2="#8fd3f4"></div>
-                        <div class="w-8 h-8 rounded border border-slate-300 cursor-pointer hover:scale-110 transition-transform" style="background: linear-gradient(45deg, #6a11cb, #2575fc);" data-color1="#6a11cb" data-color2="#2575fc"></div>
-                        <div class="w-8 h-8 rounded border border-slate-300 cursor-pointer hover:scale-110 transition-transform" style="background: linear-gradient(45deg, #ff758c, #ff7eb3);" data-color1="#ff758c" data-color2="#ff7eb3"></div>
-                        <div class="w-8 h-8 rounded border border-slate-300 cursor-pointer hover:scale-110 transition-transform" style="background: linear-gradient(45deg, #4facfe, #00f2fe);" data-color1="#4facfe" data-color2="#00f2fe"></div>
+                        <div class="w-7 h-7 rounded border-2 cursor-pointer hover:scale-110 transition-transform" style="background: linear-gradient(45deg, #ff9a9e, #fad0c4); border-color: var(--accent-color);" data-color1="#ff9a9e" data-color2="#fad0c4"></div>
+                        <div class="w-7 h-7 rounded border-2 cursor-pointer hover:scale-110 transition-transform" style="background: linear-gradient(45deg, #a18cd1, #fbc2eb); border-color: var(--accent-color);" data-color1="#a18cd1" data-color2="#fbc2eb"></div>
+                        <div class="w-7 h-7 rounded border-2 cursor-pointer hover:scale-110 transition-transform" style="background: linear-gradient(45deg, #84fab0, #8fd3f4); border-color: var(--accent-color);" data-color1="#84fab0" data-color2="#8fd3f4"></div>
+                        <div class="w-7 h-7 rounded border-2 cursor-pointer hover:scale-110 transition-transform" style="background: linear-gradient(45deg, #6a11cb, #2575fc); border-color: var(--accent-color);" data-color1="#6a11cb" data-color2="#2575fc"></div>
+                        <div class="w-7 h-7 rounded border-2 cursor-pointer hover:scale-110 transition-transform" style="background: linear-gradient(45deg, #ff758c, #ff7eb3); border-color: var(--accent-color);" data-color1="#ff758c" data-color2="#ff7eb3"></div>
+                        <div class="w-7 h-7 rounded border-2 cursor-pointer hover:scale-110 transition-transform" style="background: linear-gradient(45deg, #4facfe, #00f2fe); border-color: var(--accent-color);" data-color1="#4facfe" data-color2="#00f2fe"></div>
                     </div>
                 </div>
 
                 <!-- Properties -->
-                <div class="pb-6 border-b border-slate-200">
-                    <h3 class="font-semibold text-indigo-500 mb-4 text-lg">Properties</h3>
+                <div>
+                    <h3 class="font-semibold text-sm mb-3" style="color: var(--primary-color);">Properties</h3>
                     
                     <!-- Opacity -->
-                    <div class="flex items-center gap-2 mb-4 flex-wrap">
-                        <label for="opacity" class="font-medium min-w-max">Opacity:</label>
-                        <input type="range" id="opacity" min="0" max="1" step="0.1" value="1" class="flex-1 max-w-32">
-                        <span id="opacityValue" class="min-w-12 text-center font-bold text-indigo-500 bg-white/80 px-2 py-1 rounded text-sm">1</span>
+                    <div class="flex items-center gap-2 mb-3">
+                        <label for="opacity" class="text-xs font-medium min-w-max">Opacity:</label>
+                        <input type="range" id="opacity" min="0" max="1" step="0.1" value="1" class="flex-1">
+                        <span id="opacityValue" class="text-xs font-bold text-white bg-slate-400 px-2 py-1 rounded w-8 text-center">1</span>
                     </div>
 
                     <!-- Angle -->
-                    <div class="flex items-center gap-2 flex-wrap">
-                        <label for="gradientDirection" class="font-medium min-w-max">Angle:</label>
-                        <input type="range" id="gradientDirection" min="0" max="360" value="45" step="1" class="flex-1 max-w-32">
-                        <span id="gradientDirectionValue" class="min-w-12 text-center font-bold text-indigo-500 bg-white/80 px-2 py-1 rounded text-sm">45°</span>
+                    <div class="flex items-center gap-2">
+                        <label for="gradientDirection" class="text-xs font-medium min-w-max">Angle:</label>
+                        <input type="range" id="gradientDirection" min="0" max="360" value="45" step="1" class="flex-1">
+                        <span id="gradientDirectionValue" class="text-xs font-bold text-white bg-slate-400 px-2 py-1 rounded w-10 text-center">45°</span>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Footer -->
-        <footer class="text-center py-4 text-sm drop-shadow-sm mt-auto">
-            <p>Gradient Generator Tool © 2025 | Made with care</p>
-        </footer>
     </div>
 
+    <!-- Footer - minimal and centered -->
+    <footer class="border-t border-gray-200 bg-white py-3 text-center text-xs text-slate-500">
+        <p>Created by Je-ric</p>
+    </footer>
+
     <script>
-        // Get DOM elements
         const previewBox = document.getElementById('previewBox');
         const cssCode = document.getElementById('cssCode');
         const copyButton = document.getElementById('copyButton');
-        const tailwindTab = document.getElementById('tailwindTab');
-        const cssCodeDiv = document.getElementById('cssCodeDiv');
         const color1 = document.getElementById('color1');
         const color2 = document.getElementById('color2');
         const color1Hex = document.getElementById('color1Hex');
@@ -197,9 +230,7 @@
         const gradientDirectionValue = document.getElementById('gradientDirectionValue');
         const presetButtons = document.querySelectorAll('[data-color1]');
 
-        // Initialize the application
         function init() {
-            // Set initial values
             color1.value = '#000000';
             color2.value = '#ffffff';
             color1Hex.value = '#000000';
@@ -209,17 +240,11 @@
             gradientDirection.value = 45;
             gradientDirectionValue.textContent = '45°';
             
-            // Generate initial gradient
             generateGradient();
-            
-            // Set up event listeners
             setupEventListeners();
         }
 
-        // Set up event listeners
         function setupEventListeners() {
-
-            // Color inputs
             color1.addEventListener('input', function() {
                 color1Hex.value = this.value;
                 generateGradient();
@@ -244,40 +269,32 @@
                 }
             });
             
-            // Opacity slider
             opacity.addEventListener('input', function() {
                 opacityValue.textContent = this.value;
                 generateGradient();
             });
             
-            // Direction select
             direction.addEventListener('change', generateGradient);
             
-            // Gradient direction slider
             gradientDirection.addEventListener('input', function() {
                 gradientDirectionValue.textContent = `${this.value}°`;
                 generateGradient();
             });
             
-            // Copy CSS button
             copyButton.addEventListener('click', function() {
                 cssCode.select();
                 document.execCommand('copy');
                 
-                // Visual feedback
                 const originalText = this.textContent;
-                this.textContent = 'Copied!';
-                this.classList.add('bg-green-500');
-                this.classList.remove('bg-indigo-500');
+                const originalClass = this.className;
+                this.textContent = '✓ Copied!';
                 
                 setTimeout(() => {
                     this.textContent = originalText;
-                    this.classList.remove('bg-green-500');
-                    this.classList.add('bg-indigo-500');
+                    this.className = originalClass;
                 }, 1500);
             });
             
-            // Preset buttons
             presetButtons.forEach(btn => {
                 btn.addEventListener('click', function() {
                     const presetColor1 = this.getAttribute('data-color1');
@@ -292,25 +309,20 @@
                 });
             });
 
-            // Shuffle button
             document.getElementById('shuffleButton').addEventListener('click', shuffleColors);
         }
 
-        // Generate gradient and update preview and code
         function generateGradient() {
             const opacityVal = opacity.value;
             const directionType = direction.value;
             const angle = gradientDirection.value;
             
-            // Get colors
             const color1Value = color1.value;
             const color2Value = color2.value;
             
-            // Apply opacity to colors
             const rgbaColor1 = hexToRGBA(color1Value, opacityVal);
             const rgbaColor2 = hexToRGBA(color2Value, opacityVal);
             
-            // Create gradient based on direction type
             let gradientStyle;
             if (directionType === 'linear') {
                 gradientStyle = `linear-gradient(${angle}deg, ${rgbaColor1}, ${rgbaColor2})`;
@@ -318,11 +330,8 @@
                 gradientStyle = `radial-gradient(circle, ${rgbaColor1}, ${rgbaColor2})`;
             }
             
-            // Apply gradient to preview box and body
             previewBox.style.background = gradientStyle;
-            document.body.style.background = gradientStyle;
             
-            // Generate CSS code
             const cssCodeText = `/* CSS Gradient Code */
 background: ${gradientStyle};
 
@@ -330,12 +339,9 @@ background: ${gradientStyle};
 /* Color 1: ${color1Value} with opacity ${opacityVal} */
 /* Color 2: ${color2Value} with opacity ${opacityVal} */`;
             
-        
-            // Update code textareas
             cssCode.value = cssCodeText;
         }
 
-        // Shuffle colors randomly
         function shuffleColors() {
             color1.value = getRandomColor();
             color2.value = getRandomColor();
@@ -345,7 +351,6 @@ background: ${gradientStyle};
             generateGradient();
         }
 
-        // Generate a random color
         function getRandomColor() {
             const letters = '0123456789ABCDEF';
             let color = '#';
@@ -355,7 +360,6 @@ background: ${gradientStyle};
             return color;
         }
 
-        // Convert hex color to RGBA
         function hexToRGBA(hex, opacityVal) {
             hex = hex.replace('#', '');
             const r = parseInt(hex.substring(0, 2), 16);
@@ -364,12 +368,10 @@ background: ${gradientStyle};
             return `rgba(${r}, ${g}, ${b}, ${opacityVal})`;
         }
 
-        // Check if a string is a valid hex color
         function isValidHexColor(hex) {
             return /^#([0-9A-F]{3}){1,2}$/i.test(hex);
         }
 
-        // Initialize the application when DOM is loaded
         document.addEventListener('DOMContentLoaded', init);
     </script>
 </body>
