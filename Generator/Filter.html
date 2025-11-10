@@ -102,14 +102,10 @@
           <!-- Tabs for CSS and Tailwind code output -->
           <div class="flex gap-2 mb-4 border-b border-gray-200">
             <button class="code-tab-btn active px-4 py-2 text-sm font-medium border-b-2 border-blue-500 text-blue-500 transition-all" data-tab="css">CSS</button>
-            <button class="code-tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-600 hover:text-gray-800 transition-all" data-tab="tailwind">Tailwind</button>
           </div>
 
           <!-- CSS Code Output -->
           <textarea id="codeOutputCSS" class="w-full min-h-32 p-4 rounded-lg border border-gray-300 bg-gray-50 font-mono text-sm leading-relaxed resize-none" readonly></textarea>
-
-          <!-- Tailwind Code Output (hidden by default) -->
-          <textarea id="codeOutputTailwind" class="w-full min-h-32 p-4 rounded-lg border border-gray-300 bg-gray-50 font-mono text-sm leading-relaxed resize-none hidden" readonly></textarea>
 
           <button id="copyButton" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg cursor-pointer font-sans text-sm transition-all duration-300 hover:bg-blue-700">
             Copy to Clipboard
@@ -241,10 +237,6 @@
       </div>
     </div>
 
-    <!-- Footer -->
-    <footer class="text-center py-4 text-white text-sm drop-shadow mt-auto">
-      <p>CSS Filter Generator Tool &copy; 2025 | Made with ❤️</p>
-    </footer>
   </div>
 
   <script>
@@ -252,7 +244,6 @@
     const previewImage = document.getElementById('previewImage');
     const sliders = document.querySelectorAll('.slider');
     const codeOutputCSS = document.getElementById('codeOutputCSS');
-    const codeOutputTailwind = document.getElementById('codeOutputTailwind');
     const resetButton = document.getElementById('resetButton');
     const copyButton = document.getElementById('copyButton');
     const imageInput = document.getElementById('imageInput');
@@ -337,36 +328,7 @@ filter: blur(${blur}px)
                saturate(${saturate}%) 
                sepia(${sepia}%);`;
 
-      // Tailwind Output (using inline styles as Tailwind doesn't support filter CSS directly)
-      const tailwindCode = `<!-- Tailwind CSS Approach -->
-<!-- Note: Tailwind doesn't have built-in filter utilities, use inline style or create custom utilities -->
-
-<img 
-  src="image.jpg" 
-  alt="Filtered image"
-  style="filter: blur(${blur}px) brightness(${brightness}%) contrast(${contrast}%) grayscale(${grayscale}%) hue-rotate(${hueRotate}deg) invert(${invert}%) opacity(${opacity}%) saturate(${saturate}%) sepia(${sepia}%)"
-  class="max-w-full rounded-lg shadow-md"
->
-
-<!-- Alternative: Create custom Tailwind config for reusable filter classes -->
-<!-- In your globals.css or tailwind.config.js: -->
-@layer components {
-  .filter-vintage {
-    @apply brightness-110 contrast-[0.85] saturate-75;
-    filter: sepia(40%);
-  }
-  
-  .filter-bw {
-    @apply brightness-100 contrast-[1.2] saturate-0;
-  }
-  
-  .filter-dramatic {
-    @apply brightness-110 contrast-[1.5] saturate-[1.2];
-  }
-}`;
-
       codeOutputCSS.value = cssCode;
-      codeOutputTailwind.value = tailwindCode;
     }
 
     // Apply preset filter configurations
@@ -456,8 +418,7 @@ filter: blur(${blur}px)
       
       // Copy button functionality
       copyButton.addEventListener('click', function() {
-        const activeTextarea = activeCodeTab === 'css' ? codeOutputCSS : codeOutputTailwind;
-        activeTextarea.select();
+        codeOutputCSS.select();
         document.execCommand('copy');
         
         // Visual feedback
@@ -492,32 +453,6 @@ filter: blur(${blur}px)
         });
       });
 
-      // Code tab switching
-      codeTabBtns.forEach(btn => {
-        btn.addEventListener('click', function() {
-          const tabName = this.dataset.tab;
-          
-          // Update active state
-          codeTabBtns.forEach(b => {
-            b.classList.remove('active', 'border-b-2', 'border-blue-500', 'text-blue-500');
-            b.classList.add('border-transparent', 'text-gray-600');
-          });
-          
-          this.classList.add('active', 'border-b-2', 'border-blue-500', 'text-blue-500');
-          this.classList.remove('border-transparent', 'text-gray-600');
-          
-          // Toggle textarea visibility
-          if (tabName === 'css') {
-            codeOutputCSS.classList.remove('hidden');
-            codeOutputTailwind.classList.add('hidden');
-          } else {
-            codeOutputCSS.classList.add('hidden');
-            codeOutputTailwind.classList.remove('hidden');
-          }
-          
-          activeCodeTab = tabName;
-        });
-      });
     }
 
     // Initialize the application
