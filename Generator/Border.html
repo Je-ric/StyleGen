@@ -3,27 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>StyleGen - CSS Border Generator</title>
-  <!-- Oswald Font -->
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap">
-  <!-- Tailwind CSS -->
+  <title>CSS Border Generator | Professional Tool</title>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
   <script src="https://cdn.tailwindcss.com"></script>
-  <!-- Boxicons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@latest/css/boxicons.min.css">
-  <!-- Updated color theme and added Oswald font configuration -->
+  <!-- <CHANGE> Custom CSS for input elements that cannot be styled with Tailwind -->
   <style>
-    :root {
-      --bg-primary: #f5fbfc;
-      --accent: #9fced6;
-      --primary: #1bc5ba;
-    }
-
-    * {
-      font-family: 'Oswald', sans-serif;
-    }
-
     body {
-      background-color: var(--bg-primary);
+      font-family: 'Poppins', sans-serif;
     }
 
     /* Slider styling */
@@ -32,325 +18,317 @@
       appearance: none;
       width: 100%;
       max-width: 150px;
-      height: 6px;
+      height: 8px;
       border-radius: 10px;
-      background: var(--accent);
+      background: #ddd;
       outline: none;
     }
 
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
       appearance: none;
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      background: var(--primary);
+      background: #4a6fa5;
       cursor: pointer;
-      transition: background 0.2s;
-    }
-
-    input[type="range"]::-webkit-slider-thumb:hover {
-      background: #158a7f;
     }
 
     input[type="range"]::-moz-range-thumb {
-      width: 16px;
-      height: 16px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
-      background: var(--primary);
+      background: #4a6fa5;
       cursor: pointer;
       border: none;
-      transition: background 0.2s;
-    }
-
-    input[type="range"]::-moz-range-thumb:hover {
-      background: #158a7f;
     }
 
     /* Color input styling */
     input[type="color"] {
       -webkit-appearance: none;
       appearance: none;
-      width: 40px;
-      height: 40px;
-      border: 2px solid var(--accent);
-      border-radius: 8px;
+      width: 35px;
+      height: 35px;
+      border: none;
+      border-radius: 5px;
       cursor: pointer;
-      transition: border 0.2s;
-    }
-
-    input[type="color"]:hover {
-      border-color: var(--primary);
     }
 
     input[type="color"]::-webkit-color-swatch-wrapper {
-      padding: 2px;
+      padding: 0;
     }
 
     input[type="color"]::-webkit-color-swatch {
       border: none;
-      border-radius: 4px;
-    }
-
-    /* Select styling */
-    select {
-      font-family: 'Oswald', sans-serif;
-      border: 2px solid var(--accent) !important;
-      transition: border 0.2s;
-    }
-
-    select:focus {
-      border-color: var(--primary) !important;
-    }
-
-    select:hover {
-      border-color: var(--primary) !important;
-    }
-
-    /* Text input styling */
-    input[type="text"] {
-      font-family: 'Oswald', sans-serif;
-      border: 2px solid var(--accent) !important;
-      transition: border 0.2s;
-    }
-
-    input[type="text"]:focus {
-      border-color: var(--primary) !important;
-    }
-
-    input[type="text"]:hover {
-      border-color: var(--primary) !important;
+      border-radius: 5px;
     }
   </style>
 </head>
-<body class="text-slate-800 leading-relaxed min-h-screen flex flex-col">
-  <!-- Added modern navbar with StyleGen branding -->
-  <nav class="bg-white shadow-sm border-b-2 border-[var(--accent)]">
-    <div class="max-w-full px-6 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-2">
-        <i class="bx bx-palette text-2xl" style="color: var(--primary)"></i>
-        <h1 class="text-2xl font-bold" style="color: var(--primary)">StyleGen</h1>
-      </div>
-      <div class="hidden md:flex gap-6">
-        <a href="#" class="text-slate-600 hover:text-slate-800 transition">Home</a>
-        <a href="#" class="text-slate-600 hover:text-slate-800 transition">Docs</a>
-        <a href="#" class="text-slate-600 hover:text-slate-800 transition">GitHub</a>
-      </div>
-    </div>
-  </nav>
+<body class="min-h-screen bg-slate-50 text-slate-800 leading-relaxed p-5">
+  <div class="max-w-6xl mx-auto flex flex-col gap-8">
+    <!-- Header -->
+    <header class="text-center mb-5">
+      <h1 class="text-5xl font-bold text-blue-600 mb-2.5">CSS Border Generator</h1>
+      <p class="text-xl text-blue-900">Create beautiful CSS borders with this easy-to-use tool</p>
+    </header>
 
-  <main class="flex-1 max-w-7xl mx-auto w-full px-4 py-8">
-    <!-- Two-column layout: preview (left) and controls (right) -->
-    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 mb-8">
-      <!-- Preview Section (Left - larger) -->
-      <div class="lg:col-span-1 flex flex-col items-center justify-center">
-        <h2 class="text-lg font-bold mb-4 flex items-center gap-2" style="color: var(--primary)">
-          <i class="bx bx-show text-2xl"></i>
-          Preview
-        </h2>
-        <div class="relative w-full max-w-sm aspect-square rounded-xl shadow-lg p-8" style="background-color: white; border: 3px solid var(--accent)">
-          <div class="absolute inset-8 border border-slate-300 bg-white flex items-center justify-center transition-all duration-300 rounded-lg" id="preview">
-            <span class="text-slate-400 text-sm font-medium">Preview</span>
-          </div>
+    <!-- Preview Section -->
+    <div class="flex justify-center items-center">
+      <div class="relative border-2 border-dashed border-blue-900 w-80 h-80 rounded-lg bg-white bg-opacity-50 shadow-md">
+        <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-52 h-52 border border-black bg-white flex items-center justify-center transition-all duration-300" id="preview">
+          <span class="text-gray-500 text-sm">Preview</span>
         </div>
       </div>
+    </div>
 
-      <!-- Controls Section (Right - compact) -->
-      <div class="lg:col-span-2">
-        <div class="rounded-xl shadow-md p-6" style="background-color: white; border: 2px solid var(--accent)">
-          <h2 class="text-lg font-bold mb-6 flex items-center gap-2" style="color: var(--primary)">
-            <i class="bx bx-slider text-2xl"></i>
-            Border Controls
-          </h2>
+    <!-- Controls Section -->
+    <div class="bg-white rounded-lg shadow-md p-8">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <!-- Individual Border Controls -->
+        <div class="bg-slate-50 p-5 rounded-lg shadow-sm">
+          <h3 class="mb-4 text-blue-600 text-xl font-semibold flex items-center gap-2">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+            </svg>
+            Individual Borders
+          </h3>
           
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Top Border -->
-            <div class="space-y-3">
-              <h3 class="font-semibold text-slate-700">Top</h3>
-              <div class="space-y-2">
-                <label class="flex items-center gap-2 text-sm font-medium">
-                  <span class="w-12">Width:</span>
-                  <input type="range" id="borderTopWidth" min="0" max="25" value="5">
-                  <span class="font-bold" style="color: var(--primary); min-width: 45px;" id="borderTopWidthValue">5px</span>
-                </label>
-              </div>
-              <div class="space-y-2">
-                <label class="flex items-center gap-2 text-sm font-medium">
-                  <span class="w-12">Style:</span>
-                  <select id="borderTopStyle" class="py-1 px-2 rounded-lg text-sm flex-1">
-                    <option value="solid">Solid</option>
-                    <option value="dashed">Dashed</option>
-                    <option value="dotted">Dotted</option>
-                    <option value="double">Double</option>
-                    <option value="groove">Groove</option>
-                    <option value="ridge">Ridge</option>
-                    <option value="inset">Inset</option>
-                    <option value="outset">Outset</option>
-                    <option value="none">None</option>
-                  </select>
-                </label>
-              </div>
-              <div class="flex items-center gap-2">
+          <!-- Top Border -->
+          <div class="mb-4">
+            <h4 class="font-semibold mb-2">Top Border</h4>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Width:
+                <input type="range" id="borderTopWidth" min="0" max="25" value="5">
+                <span class="slider-value font-bold text-blue-600 w-8 text-center" id="borderTopWidthValue">5px</span>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Style:
+                <select id="borderTopStyle" class="p-2 rounded-lg border border-gray-300 bg-white font-inherit text-sm cursor-pointer focus:border-cyan-400 focus:outline-none">
+                  <option value="solid">Solid</option>
+                  <option value="dashed">Dashed</option>
+                  <option value="dotted">Dotted</option>
+                  <option value="double">Double</option>
+                  <option value="groove">Groove</option>
+                  <option value="ridge">Ridge</option>
+                  <option value="inset">Inset</option>
+                  <option value="outset">Outset</option>
+                  <option value="none">None</option>
+                </select>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Color:
                 <input type="color" id="borderTopColor" value="#000000">
-                <input type="text" id="borderTopColorHex" placeholder="#000000" class="py-1 px-2 rounded-lg text-sm w-24">
-              </div>
-            </div>
-
-            <!-- Right Border -->
-            <div class="space-y-3">
-              <h3 class="font-semibold text-slate-700">Right</h3>
-              <div class="space-y-2">
-                <label class="flex items-center gap-2 text-sm font-medium">
-                  <span class="w-12">Width:</span>
-                  <input type="range" id="borderRightWidth" min="0" max="25" value="5">
-                  <span class="font-bold" style="color: var(--primary); min-width: 45px;" id="borderRightWidthValue">5px</span>
-                </label>
-              </div>
-              <div class="space-y-2">
-                <label class="flex items-center gap-2 text-sm font-medium">
-                  <span class="w-12">Style:</span>
-                  <select id="borderRightStyle" class="py-1 px-2 rounded-lg text-sm flex-1">
-                    <option value="solid">Solid</option>
-                    <option value="dashed">Dashed</option>
-                    <option value="dotted">Dotted</option>
-                    <option value="double">Double</option>
-                    <option value="groove">Groove</option>
-                    <option value="ridge">Ridge</option>
-                    <option value="inset">Inset</option>
-                    <option value="outset">Outset</option>
-                    <option value="none">None</option>
-                  </select>
-                </label>
-              </div>
-              <div class="flex items-center gap-2">
-                <input type="color" id="borderRightColor" value="#000000">
-                <input type="text" id="borderRightColorHex" placeholder="#000000" class="py-1 px-2 rounded-lg text-sm w-24">
-              </div>
-            </div>
-
-            <!-- Bottom Border -->
-            <div class="space-y-3">
-              <h3 class="font-semibold text-slate-700">Bottom</h3>
-              <div class="space-y-2">
-                <label class="flex items-center gap-2 text-sm font-medium">
-                  <span class="w-12">Width:</span>
-                  <input type="range" id="borderBottomWidth" min="0" max="25" value="5">
-                  <span class="font-bold" style="color: var(--primary); min-width: 45px;" id="borderBottomWidthValue">5px</span>
-                </label>
-              </div>
-              <div class="space-y-2">
-                <label class="flex items-center gap-2 text-sm font-medium">
-                  <span class="w-12">Style:</span>
-                  <select id="borderBottomStyle" class="py-1 px-2 rounded-lg text-sm flex-1">
-                    <option value="solid">Solid</option>
-                    <option value="dashed">Dashed</option>
-                    <option value="dotted">Dotted</option>
-                    <option value="double">Double</option>
-                    <option value="groove">Groove</option>
-                    <option value="ridge">Ridge</option>
-                    <option value="inset">Inset</option>
-                    <option value="outset">Outset</option>
-                    <option value="none">None</option>
-                  </select>
-                </label>
-              </div>
-              <div class="flex items-center gap-2">
-                <input type="color" id="borderBottomColor" value="#000000">
-                <input type="text" id="borderBottomColorHex" placeholder="#000000" class="py-1 px-2 rounded-lg text-sm w-24">
-              </div>
-            </div>
-
-            <!-- Left Border -->
-            <div class="space-y-3">
-              <h3 class="font-semibold text-slate-700">Left</h3>
-              <div class="space-y-2">
-                <label class="flex items-center gap-2 text-sm font-medium">
-                  <span class="w-12">Width:</span>
-                  <input type="range" id="borderLeftWidth" min="0" max="25" value="5">
-                  <span class="font-bold" style="color: var(--primary); min-width: 45px;" id="borderLeftWidthValue">5px</span>
-                </label>
-              </div>
-              <div class="space-y-2">
-                <label class="flex items-center gap-2 text-sm font-medium">
-                  <span class="w-12">Style:</span>
-                  <select id="borderLeftStyle" class="py-1 px-2 rounded-lg text-sm flex-1">
-                    <option value="solid">Solid</option>
-                    <option value="dashed">Dashed</option>
-                    <option value="dotted">Dotted</option>
-                    <option value="double">Double</option>
-                    <option value="groove">Groove</option>
-                    <option value="ridge">Ridge</option>
-                    <option value="inset">Inset</option>
-                    <option value="outset">Outset</option>
-                    <option value="none">None</option>
-                  </select>
-                </label>
-              </div>
-              <div class="flex items-center gap-2">
-                <input type="color" id="borderLeftColor" value="#000000">
-                <input type="text" id="borderLeftColorHex" placeholder="#000000" class="py-1 px-2 rounded-lg text-sm w-24">
-              </div>
+              </label>
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Hex:
+                <input type="text" id="borderTopColorHex" placeholder="#000000" class="p-2 rounded-lg border border-gray-300 w-20 font-inherit text-sm focus:border-cyan-400 focus:outline-none">
+              </label>
             </div>
           </div>
-
-          <!-- All Borders & Background Row -->
-          <div class="border-t-2 border-[var(--accent)] mt-6 pt-6">
-            <h3 class="font-semibold text-slate-700 mb-4 flex items-center gap-2">
-              <i class="bx bx-grid text-lg"></i>
-              All Borders & Background
-            </h3>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <!-- All Borders Width -->
-              <div class="space-y-2">
-                <label class="flex items-center gap-2 text-sm font-medium">
-                  <span>All Width:</span>
-                  <input type="range" id="borderWidth" min="0" max="25" value="5">
-                  <span class="font-bold" style="color: var(--primary); min-width: 45px;" id="borderWidthValue">5px</span>
-                </label>
-              </div>
-
-              <!-- All Borders Color -->
-              <div class="flex items-center gap-2">
-                <span class="text-sm font-medium">All Color:</span>
+          
+          <!-- Right Border -->
+          <div class="mb-4">
+            <h4 class="font-semibold mb-2">Right Border</h4>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Width:
+                <input type="range" id="borderRightWidth" min="0" max="25" value="5">
+                <span class="slider-value font-bold text-blue-600 w-8 text-center" id="borderRightWidthValue">5px</span>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Style:
+                <select id="borderRightStyle" class="p-2 rounded-lg border border-gray-300 bg-white font-inherit text-sm cursor-pointer focus:border-cyan-400 focus:outline-none">
+                  <option value="solid">Solid</option>
+                  <option value="dashed">Dashed</option>
+                  <option value="dotted">Dotted</option>
+                  <option value="double">Double</option>
+                  <option value="groove">Groove</option>
+                  <option value="ridge">Ridge</option>
+                  <option value="inset">Inset</option>
+                  <option value="outset">Outset</option>
+                  <option value="none">None</option>
+                </select>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Color:
+                <input type="color" id="borderRightColor" value="#000000">
+              </label>
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Hex:
+                <input type="text" id="borderRightColorHex" placeholder="#000000" class="p-2 rounded-lg border border-gray-300 w-20 font-inherit text-sm focus:border-cyan-400 focus:outline-none">
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- Bottom and Left Borders -->
+        <div class="bg-slate-50 p-5 rounded-lg shadow-sm">
+          <!-- Bottom Border -->
+          <div class="mb-4">
+            <h4 class="font-semibold mb-2">Bottom Border</h4>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Width:
+                <input type="range" id="borderBottomWidth" min="0" max="25" value="5">
+                <span class="slider-value font-bold text-blue-600 w-8 text-center" id="borderBottomWidthValue">5px</span>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Style:
+                <select id="borderBottomStyle" class="p-2 rounded-lg border border-gray-300 bg-white font-inherit text-sm cursor-pointer focus:border-cyan-400 focus:outline-none">
+                  <option value="solid">Solid</option>
+                  <option value="dashed">Dashed</option>
+                  <option value="dotted">Dotted</option>
+                  <option value="double">Double</option>
+                  <option value="groove">Groove</option>
+                  <option value="ridge">Ridge</option>
+                  <option value="inset">Inset</option>
+                  <option value="outset">Outset</option>
+                  <option value="none">None</option>
+                </select>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-4">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Color:
+                <input type="color" id="borderBottomColor" value="#000000">
+              </label>
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Hex:
+                <input type="text" id="borderBottomColorHex" placeholder="#000000" class="p-2 rounded-lg border border-gray-300 w-20 font-inherit text-sm focus:border-cyan-400 focus:outline-none">
+              </label>
+            </div>
+          </div>
+          
+          <!-- Left Border -->
+          <div>
+            <h4 class="font-semibold mb-2">Left Border</h4>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Width:
+                <input type="range" id="borderLeftWidth" min="0" max="25" value="5">
+                <span class="slider-value font-bold text-blue-600 w-8 text-center" id="borderLeftWidthValue">5px</span>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-2">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Style:
+                <select id="borderLeftStyle" class="p-2 rounded-lg border border-gray-300 bg-white font-inherit text-sm cursor-pointer focus:border-cyan-400 focus:outline-none">
+                  <option value="solid">Solid</option>
+                  <option value="dashed">Dashed</option>
+                  <option value="dotted">Dotted</option>
+                  <option value="double">Double</option>
+                  <option value="groove">Groove</option>
+                  <option value="ridge">Ridge</option>
+                  <option value="inset">Inset</option>
+                  <option value="outset">Outset</option>
+                  <option value="none">None</option>
+                </select>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Color:
+                <input type="color" id="borderLeftColor" value="#000000">
+              </label>
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Hex:
+                <input type="text" id="borderLeftColorHex" placeholder="#000000" class="p-2 rounded-lg border border-gray-300 w-20 font-inherit text-sm focus:border-cyan-400 focus:outline-none">
+              </label>
+            </div>
+          </div>
+        </div>
+        
+        <!-- All Borders & Background -->
+        <div class="bg-slate-50 p-5 rounded-lg shadow-sm">
+          <h3 class="mb-4 text-blue-600 text-xl font-semibold flex items-center gap-2">
+            <svg class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+              <rect x="3" y="3" width="18" height="18" rx="2" />
+              <line x1="3" y1="9" x2="21" y2="9" />
+              <line x1="3" y1="15" x2="21" y2="15" />
+              <line x1="9" y1="3" x2="9" y2="21" />
+              <line x1="15" y1="3" x2="15" y2="21" />
+            </svg>
+            All Borders & Background
+          </h3>
+          
+          <div class="mb-4">
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4 mb-3">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                All Borders Width:
+                <input type="range" id="borderWidth" min="0" max="25" value="5">
+                <span class="slider-value font-bold text-blue-600 w-8 text-center" id="borderWidthValue">5px</span>
+              </label>
+            </div>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                All Borders Color:
                 <input type="color" id="borderColor" value="#000000">
-                <input type="text" id="borderColorHex" placeholder="#000000" class="py-1 px-2 rounded-lg text-sm w-24">
-              </div>
-
-              <!-- Background Color -->
-              <div class="flex items-center gap-2">
-                <span class="text-sm font-medium">Background:</span>
+              </label>
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Hex:
+                <input type="text" id="borderColorHex" placeholder="#000000" class="p-2 rounded-lg border border-gray-300 w-20 font-inherit text-sm focus:border-cyan-400 focus:outline-none">
+              </label>
+            </div>
+          </div>
+          
+          <div>
+            <h4 class="font-semibold mb-2">Background</h4>
+            <div class="flex flex-col md:flex-row md:flex-wrap gap-4">
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Background Color:
                 <input type="color" id="bgColor" value="#FFFFFF">
-                <input type="text" id="bgColorHex" placeholder="#FFFFFF" class="py-1 px-2 rounded-lg text-sm w-24">
-              </div>
+              </label>
+              <label class="flex items-center gap-2 font-medium text-sm">
+                Hex:
+                <input type="text" id="bgColorHex" placeholder="#FFFFFF" class="p-2 rounded-lg border border-gray-300 w-20 font-inherit text-sm focus:border-cyan-400 focus:outline-none">
+              </label>
             </div>
           </div>
         </div>
       </div>
     </div>
 
-    <!-- Code output section moved below both panels with improved styling -->
-    <div class="rounded-xl shadow-md p-6" style="background-color: white; border: 2px solid var(--accent)">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-bold flex items-center gap-2" style="color: var(--primary)">
-          <i class="bx bx-code-alt text-2xl"></i>
-          Generated CSS Code
-        </h3>
-        <button id="copyButton" class="px-4 py-2 rounded-lg font-semibold text-white text-sm transition-all duration-300 flex items-center gap-2" style="background-color: var(--primary); hover-color: #158a7f;">
-          <i class="bx bx-copy text-lg"></i>
-          Copy
-        </button>
-      </div>
-      <pre class="bg-slate-900 text-slate-100 p-4 rounded-lg overflow-x-auto text-xs leading-relaxed"><code id="codeOutput"></code></pre>
+    <!-- Output Section -->
+    <div class="bg-white rounded-lg shadow-md p-8">
+      <h3 class="mb-4 text-blue-600 font-semibold">Generated CSS Code</h3>
+      <textarea id="codeOutput" readonly class="w-full min-h-32 p-4 rounded-lg border border-gray-300 bg-gray-100 font-mono resize-vertical text-sm leading-relaxed"></textarea>
+      <button id="copyButton" class="mt-3 px-4 py-2 bg-blue-600 text-white rounded-lg cursor-pointer font-inherit text-sm transition-all duration-300 hover:bg-blue-900">Copy to Clipboard</button>
     </div>
-  </main>
 
-  <!-- Added footer with credit -->
-  <footer class="bg-white border-t-2 border-[var(--accent)] mt-12 py-6 text-center text-slate-500 text-sm">
-    <p>Created by Je-ric</p>
-  </footer>
+    <!-- Footer -->
+    <footer class="text-center mt-8 text-blue-900 text-sm">
+      <p>CSS Border Generator Tool © 2025 | Made with ❤️</p>
+    </footer>
+  </div>
 
   <script>
-    // Removed rgbToHex function as it was not used in the provided code and is not part of the updates.
+    // ... existing code ...
+    function rgbToHex(rgb) {
+      if (!rgb || rgb.startsWith('#') || !rgb.startsWith('rgb')) {
+        return rgb;
+      }
+      
+      const rgbValues = rgb.match(/^rgb$$(\d+),\s*(\d+),\s*(\d+)$$$/);
+      if (!rgbValues) return rgb;
+      
+      function toHex(value) {
+        const hex = parseInt(value, 10).toString(16);
+        return hex.length === 1 ? '0' + hex : hex;
+      }
+      
+      return `#${toHex(rgbValues[1])}${toHex(rgbValues[2])}${toHex(rgbValues[3])}`.toUpperCase();
+    }
     
     const elements = {
       borderWidth: document.getElementById('borderWidth'),
@@ -440,8 +418,7 @@ ${topStyle === rightStyle && rightStyle === bottomStyle && bottomStyle === leftS
 ${topColor === rightColor && rightColor === bottomColor && bottomColor === leftColor ? 
   `border-color: ${topColor};\n` : ''}`;
       
-      // Changed to innerText for the <pre><code> block
-      elements.codeOutput.innerText = formattedCSS;
+      elements.codeOutput.value = formattedCSS;
       
       elements.borderTopColorHex.value = topColor;
       elements.borderRightColorHex.value = rightColor;
@@ -553,19 +530,17 @@ ${topColor === rightColor && rightColor === bottomColor && bottomColor === leftC
       });
       
       elements.copyButton.addEventListener('click', () => {
-        const codeText = elements.codeOutput.innerText;
-        navigator.clipboard.writeText(codeText).then(() => {
-          const originalHTML = elements.copyButton.innerHTML;
-          elements.copyButton.innerHTML = '<i class="bx bx-check text-lg"></i> Copied!';
-          // Apply inline style for hover effect simulation
-          elements.copyButton.style.backgroundColor = '#158a7f'; 
-          
-          setTimeout(() => {
-            elements.copyButton.innerHTML = originalHTML;
-            // Reset to original style
-            elements.copyButton.style.backgroundColor = 'var(--primary)'; 
-          }, 1500);
-        });
+        elements.codeOutput.select();
+        document.execCommand('copy');
+        
+        const originalText = elements.copyButton.textContent;
+        elements.copyButton.textContent = 'Copied!';
+        elements.copyButton.style.backgroundColor = '#4CAF50';
+        
+        setTimeout(() => {
+          elements.copyButton.textContent = originalText;
+          elements.copyButton.style.backgroundColor = '';
+        }, 1500);
       });
     }
     

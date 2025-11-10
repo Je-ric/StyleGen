@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>CSS Filter Generator | StyleGen Tool</title>
+  <title>CSS Filter Generator | Professional Tool</title>
   <script src="https://cdn.tailwindcss.com"></script>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;600;700&display=swap">
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap">
   <style>
+    /* Custom CSS for slider thumb styling and other elements that require CSS-specific features */
     * {
-      font-family: 'Oswald', sans-serif;
+      font-family: 'Poppins', sans-serif;
     }
 
     @keyframes gradient {
@@ -19,7 +19,9 @@
     }
 
     body {
-      background-color: #f5fbfc;
+      background: linear-gradient(135deg, #60a5fa, #3b82f6, #2563eb);
+      background-size: 400% 400%;
+      animation: gradient 15s ease infinite;
     }
 
     input[type="range"] {
@@ -67,11 +69,8 @@
   <div class="max-w-7xl w-full mx-auto p-4 flex flex-col flex-1">
     <!-- Header -->
     <header class="text-center py-4 mb-4">
-      <div class="flex items-center justify-center gap-3 mb-2">
-        <i class='bx bxs-palette' style="font-size: 32px; color: #1bc5ba;"></i>
-        <h1 class="text-3xl font-bold" style="color: #1bc5ba;">CSS Filter Generator</h1>
-      </div>
-      <p class="text-sm" style="color: #64748b;">Create beautiful image filters with this easy-to-use tool</p>
+      <h1 class="text-4xl font-bold text-white mb-2 drop-shadow">CSS Filter Generator</h1>
+      <p class="text-white text-opacity-90 text-base">Create beautiful image filters with this easy-to-use tool</p>
     </header>
 
     <!-- Main Content -->
@@ -79,7 +78,7 @@
       <!-- Left Panel -->
       <div class="flex flex-col gap-6">
         <!-- Preview Container -->
-        <div class="rounded-lg p-8 flex flex-col gap-6 shadow-lg flex-1" style="background-color: white; border: 2px solid #9fced6;">
+        <div class="bg-white bg-opacity-10 backdrop-blur-md rounded-lg p-8 flex flex-col gap-6 shadow-lg flex-1">
           <!-- Image Preview -->
           <div class="flex justify-center items-center flex-1 min-h-80 relative">
             <img id="previewImage" src="https://images.unsplash.com/photo-1682687982501-1e58ab814714" alt="Preview Image" class="max-w-full max-h-96 object-contain rounded-lg transition-all duration-300 shadow-md">
@@ -88,7 +87,7 @@
           <!-- Image Upload -->
           <div class="flex justify-center items-center">
             <div class="upload-btn-wrapper relative overflow-hidden inline-block cursor-pointer">
-              <button class="border-2 rounded-lg text-sm font-medium cursor-pointer transition-all duration-300 px-5 py-2" style="border-color: #1bc5ba; color: #1bc5ba; background-color: #f5fbfc;" onmouseover="this.style.backgroundColor='#e0f2f1'" onmouseout="this.style.backgroundColor='#f5fbfc'">
+              <button class="border-2 border-white text-white bg-white bg-opacity-10 px-5 py-2 rounded-lg text-base font-medium cursor-pointer transition-all duration-300 hover:bg-opacity-20">
                 Upload Your Image
               </button>
               <input type="file" id="imageInput" accept="image/*">
@@ -97,44 +96,46 @@
         </div>
 
         <!-- Code Output Container -->
-        <div class="rounded-lg shadow-lg p-6" style="background-color: #f5fbfc; border: 2px solid #9fced6;">
-          <div class="flex items-center gap-2 mb-4">
-            <i class='bx bxs-code-curly' style="font-size: 20px; color: #1bc5ba;"></i>
-            <h3 class="text-base font-semibold" style="color: #1bc5ba;">Generated Code</h3>
-          </div>
+        <div class="bg-white rounded-lg shadow-lg p-6">
+          <h3 class="text-blue-500 mb-4 text-xl font-semibold">Generated Code</h3>
           
-          <!-- CSS Code Output -->
-          <textarea id="codeOutputCSS" class="w-full min-h-32 p-4 rounded-lg border text-xs leading-relaxed resize-none font-mono" style="border-color: #9fced6; background-color: white;" readonly></textarea>
+          <!-- Tabs for CSS and Tailwind code output -->
+          <div class="flex gap-2 mb-4 border-b border-gray-200">
+            <button class="code-tab-btn active px-4 py-2 text-sm font-medium border-b-2 border-blue-500 text-blue-500 transition-all" data-tab="css">CSS</button>
+            <button class="code-tab-btn px-4 py-2 text-sm font-medium border-b-2 border-transparent text-gray-600 hover:text-gray-800 transition-all" data-tab="tailwind">Tailwind</button>
+          </div>
 
-          <!-- Copy Button -->
-          <button id="copyButton" class="mt-4 px-4 py-2 text-white rounded-lg cursor-pointer text-xs font-medium transition-all duration-300" style="background-color: #1bc5ba;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
+          <!-- CSS Code Output -->
+          <textarea id="codeOutputCSS" class="w-full min-h-32 p-4 rounded-lg border border-gray-300 bg-gray-50 font-mono text-sm leading-relaxed resize-none" readonly></textarea>
+
+          <!-- Tailwind Code Output (hidden by default) -->
+          <textarea id="codeOutputTailwind" class="w-full min-h-32 p-4 rounded-lg border border-gray-300 bg-gray-50 font-mono text-sm leading-relaxed resize-none hidden" readonly></textarea>
+
+          <button id="copyButton" class="mt-4 px-4 py-2 bg-blue-500 text-white rounded-lg cursor-pointer font-sans text-sm transition-all duration-300 hover:bg-blue-700">
             Copy to Clipboard
           </button>
         </div>
       </div>
 
       <!-- Controls Section -->
-      <div class="rounded-lg shadow-lg p-6 flex flex-col h-fit lg:h-full" style="background-color: white; border: 2px solid #9fced6;">
+      <div class="bg-white rounded-lg shadow-lg p-6 flex flex-col h-fit lg:h-full">
         <!-- Controls Header -->
         <div class="flex justify-between items-center mb-6">
-          <div class="flex items-center gap-2">
-            <i class='bx bxs-slider' style="font-size: 20px; color: #1bc5ba;"></i>
-            <h2 class="text-base font-semibold" style="color: #1bc5ba;">Filter Controls</h2>
-          </div>
+          <h2 class="text-xl font-semibold text-blue-500">Filter Controls</h2>
 
           <!-- Preset Dropdown -->
           <div class="preset-dropdown relative">
-            <button id="presetToggle" class="px-3 py-2 border rounded-lg cursor-pointer text-xs font-medium transition-all duration-300 flex items-center gap-2" style="border-color: #9fced6; color: #1bc5ba; background-color: #f5fbfc;" onmouseover="this.style.backgroundColor='#e0f2f1'" onmouseout="this.style.backgroundColor='#f5fbfc'">
+            <button id="presetToggle" class="px-4 py-2 bg-gray-100 border border-gray-300 rounded-lg cursor-pointer font-inherit text-sm transition-all duration-300 hover:bg-gray-200 flex items-center gap-2">
               Presets
               <svg id="presetIcon" viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none" class="transition-transform duration-300">
                 <polyline points="6 9 12 15 18 9"></polyline>
               </svg>
             </button>
-            <div id="presetMenu" class="absolute top-full right-0 w-40 bg-white rounded-lg shadow-md p-1 z-10 hidden" style="border: 1px solid #9fced6;">
-              <div class="preset-item px-4 py-2 cursor-pointer rounded-sm transition-all duration-300 text-xs" data-preset="normal" onmouseover="this.style.backgroundColor='#f5fbfc'" onmouseout="this.style.backgroundColor='transparent'">Normal</div>
-              <div class="preset-item px-4 py-2 cursor-pointer rounded-sm transition-all duration-300 text-xs" data-preset="vintage" onmouseover="this.style.backgroundColor='#f5fbfc'" onmouseout="this.style.backgroundColor='transparent'">Vintage</div>
-              <div class="preset-item px-4 py-2 cursor-pointer rounded-sm transition-all duration-300 text-xs" data-preset="bw" onmouseover="this.style.backgroundColor='#f5fbfc'" onmouseout="this.style.backgroundColor='transparent'">B&W</div>
-              <div class="preset-item px-4 py-2 cursor-pointer rounded-sm transition-all duration-300 text-xs" data-preset="dramatic" onmouseover="this.style.backgroundColor='#f5fbfc'" onmouseout="this.style.backgroundColor='transparent'">Dramatic</div>
+            <div id="presetMenu" class="absolute top-full right-0 w-40 bg-white rounded-lg shadow-md p-1 z-10 hidden">
+              <div class="preset-item px-4 py-2 cursor-pointer rounded-sm transition-all duration-300 hover:bg-gray-100" data-preset="normal">Normal</div>
+              <div class="preset-item px-4 py-2 cursor-pointer rounded-sm transition-all duration-300 hover:bg-gray-100" data-preset="vintage">Vintage</div>
+              <div class="preset-item px-4 py-2 cursor-pointer rounded-sm transition-all duration-300 hover:bg-gray-100" data-preset="bw">B&W</div>
+              <div class="preset-item px-4 py-2 cursor-pointer rounded-sm transition-all duration-300 hover:bg-gray-100" data-preset="dramatic">Dramatic</div>
             </div>
           </div>
         </div>
@@ -142,93 +143,87 @@
         <!-- Filter Controls -->
         <div class="filter-controls flex flex-col gap-6 overflow-y-auto flex-1 pr-2">
           <!-- Basic Adjustments -->
-          <div class="filter-group rounded-lg p-4" style="background-color: #f5fbfc;">
-            <h3 class="mb-4 text-xs font-semibold flex items-center gap-2" style="color: #1bc5ba;">
-              <i class='bx bxs-brightness-half'></i>Basic Adjustments
-            </h3>
+          <div class="filter-group bg-gray-100 rounded-lg p-6">
+            <h3 class="text-blue-500 mb-4 text-lg font-semibold flex items-center gap-2">Basic Adjustments</h3>
 
             <div class="mb-4 last:mb-0">
-              <div class="flex justify-between mb-2 font-medium text-xs">
+              <div class="flex justify-between mb-2 font-medium">
                 <span>Brightness</span>
-                <span class="filter-value font-bold" id="brightnessValue" style="color: #1bc5ba;">100%</span>
+                <span class="filter-value text-blue-600 font-bold" id="brightnessValue">100%</span>
               </div>
               <input type="range" id="brightness" class="slider" min="0" max="200" value="100">
             </div>
 
             <div class="mb-4 last:mb-0">
-              <div class="flex justify-between mb-2 font-medium text-xs">
+              <div class="flex justify-between mb-2 font-medium">
                 <span>Contrast</span>
-                <span class="filter-value font-bold" id="contrastValue" style="color: #1bc5ba;">100%</span>
+                <span class="filter-value text-blue-600 font-bold" id="contrastValue">100%</span>
               </div>
               <input type="range" id="contrast" class="slider" min="0" max="200" value="100">
             </div>
 
             <div class="mb-0">
-              <div class="flex justify-between mb-2 font-medium text-xs">
+              <div class="flex justify-between mb-2 font-medium">
                 <span>Saturation</span>
-                <span class="filter-value font-bold" id="saturateValue" style="color: #1bc5ba;">100%</span>
+                <span class="filter-value text-blue-600 font-bold" id="saturateValue">100%</span>
               </div>
               <input type="range" id="saturate" class="slider" min="0" max="200" value="100">
             </div>
           </div>
 
           <!-- Color Effects -->
-          <div class="filter-group rounded-lg p-4" style="background-color: #f5fbfc;">
-            <h3 class="mb-4 text-xs font-semibold flex items-center gap-2" style="color: #1bc5ba;">
-              <i class='bx bxs-palette'></i>Color Effects
-            </h3>
+          <div class="filter-group bg-gray-100 rounded-lg p-6">
+            <h3 class="text-blue-500 mb-4 text-lg font-semibold flex items-center gap-2">Color Effects</h3>
 
             <div class="mb-4 last:mb-0">
-              <div class="flex justify-between mb-2 font-medium text-xs">
+              <div class="flex justify-between mb-2 font-medium">
                 <span>Grayscale</span>
-                <span class="filter-value font-bold" id="grayscaleValue" style="color: #1bc5ba;">0%</span>
+                <span class="filter-value text-blue-600 font-bold" id="grayscaleValue">0%</span>
               </div>
               <input type="range" id="grayscale" class="slider" min="0" max="100" value="0">
             </div>
 
             <div class="mb-4 last:mb-0">
-              <div class="flex justify-between mb-2 font-medium text-xs">
+              <div class="flex justify-between mb-2 font-medium">
                 <span>Sepia</span>
-                <span class="filter-value font-bold" id="sepiaValue" style="color: #1bc5ba;">0%</span>
+                <span class="filter-value text-blue-600 font-bold" id="sepiaValue">0%</span>
               </div>
               <input type="range" id="sepia" class="slider" min="0" max="100" value="0">
             </div>
 
             <div class="mb-4 last:mb-0">
-              <div class="flex justify-between mb-2 font-medium text-xs">
+              <div class="flex justify-between mb-2 font-medium">
                 <span>Hue Rotate</span>
-                <span class="filter-value font-bold" id="hueRotateValue" style="color: #1bc5ba;">0deg</span>
+                <span class="filter-value text-blue-600 font-bold" id="hueRotateValue">0deg</span>
               </div>
               <input type="range" id="hueRotate" class="slider" min="0" max="360" value="0">
             </div>
 
             <div class="mb-0">
-              <div class="flex justify-between mb-2 font-medium text-xs">
+              <div class="flex justify-between mb-2 font-medium">
                 <span>Invert</span>
-                <span class="filter-value font-bold" id="invertValue" style="color: #1bc5ba;">0%</span>
+                <span class="filter-value text-blue-600 font-bold" id="invertValue">0%</span>
               </div>
               <input type="range" id="invert" class="slider" min="0" max="100" value="0">
             </div>
           </div>
 
           <!-- Advanced Effects -->
-          <div class="filter-group rounded-lg p-4" style="background-color: #f5fbfc;">
-            <h3 class="mb-4 text-xs font-semibold flex items-center gap-2" style="color: #1bc5ba;">
-              <i class='bx bxs-magic-wand'></i>Advanced Effects
-            </h3>
+          <div class="filter-group bg-gray-100 rounded-lg p-6">
+            <h3 class="text-blue-500 mb-4 text-lg font-semibold flex items-center gap-2">Advanced Effects</h3>
 
             <div class="mb-4 last:mb-0">
-              <div class="flex justify-between mb-2 font-medium text-xs">
+              <div class="flex justify-between mb-2 font-medium">
                 <span>Blur</span>
-                <span class="filter-value font-bold" id="blurRadiusValue" style="color: #1bc5ba;">0px</span>
+                <span class="filter-value text-blue-600 font-bold" id="blurRadiusValue">0px</span>
               </div>
               <input type="range" id="blurRadius" class="slider" min="0" max="20" value="0">
             </div>
 
             <div class="mb-0">
-              <div class="flex justify-between mb-2 font-medium text-xs">
+              <div class="flex justify-between mb-2 font-medium">
                 <span>Opacity</span>
-                <span class="filter-value font-bold" id="opacityValue" style="color: #1bc5ba;">100%</span>
+                <span class="filter-value text-blue-600 font-bold" id="opacityValue">100%</span>
               </div>
               <input type="range" id="opacity" class="slider" min="0" max="100" value="100">
             </div>
@@ -236,16 +231,19 @@
         </div>
 
         <!-- Reset Button -->
-        <button id="resetButton" class="mt-6 px-4 py-3 rounded-lg cursor-pointer font-semibold text-xs transition-all duration-300 flex items-center justify-center gap-2" style="background-color: #9fced6; color: white;" onmouseover="this.style.opacity='0.9'" onmouseout="this.style.opacity='1'">
-          <i class='bx bx-reset'></i>
+        <button id="resetButton" class="mt-6 px-4 py-3 bg-gray-200 text-gray-700 rounded-lg cursor-pointer font-inherit text-base transition-all duration-300 hover:bg-gray-300 flex items-center justify-center gap-2">
+          <svg viewBox="0 0 24 24" width="16" height="16" stroke="currentColor" stroke-width="2" fill="none">
+            <path d="M3 12a9 9 0 1 0 18 0 9 9 0 0 0-18 0z"></path>
+            <path d="M9 12l2 2 4-4"></path>
+          </svg>
           Reset All Filters
         </button>
       </div>
     </div>
 
     <!-- Footer -->
-    <footer class="text-center py-4 text-xs" style="color: #64748b;">
-      <p>Created by Je-ric</p>
+    <footer class="text-center py-4 text-white text-sm drop-shadow mt-auto">
+      <p>CSS Filter Generator Tool &copy; 2025 | Made with ❤️</p>
     </footer>
   </div>
 
@@ -254,6 +252,7 @@
     const previewImage = document.getElementById('previewImage');
     const sliders = document.querySelectorAll('.slider');
     const codeOutputCSS = document.getElementById('codeOutputCSS');
+    const codeOutputTailwind = document.getElementById('codeOutputTailwind');
     const resetButton = document.getElementById('resetButton');
     const copyButton = document.getElementById('copyButton');
     const imageInput = document.getElementById('imageInput');
@@ -345,7 +344,7 @@ filter: blur(${blur}px)
 <img 
   src="image.jpg" 
   alt="Filtered image"
-  style="filter: blur(${blur}px) brightness(${brightness}%) contrast(${contrast}%) grayscale(${grayscale}%) hue-rotate(${hueRotate}deg) invert(${invert}%) opacity(${opacity}%) saturate(${saturate}%) sepia(${sepia}%);"
+  style="filter: blur(${blur}px) brightness(${brightness}%) contrast(${contrast}%) grayscale(${grayscale}%) hue-rotate(${hueRotate}deg) invert(${invert}%) opacity(${opacity}%) saturate(${saturate}%) sepia(${sepia}%)"
   class="max-w-full rounded-lg shadow-md"
 >
 
@@ -367,6 +366,7 @@ filter: blur(${blur}px)
 }`;
 
       codeOutputCSS.value = cssCode;
+      codeOutputTailwind.value = tailwindCode;
     }
 
     // Apply preset filter configurations
@@ -456,7 +456,7 @@ filter: blur(${blur}px)
       
       // Copy button functionality
       copyButton.addEventListener('click', function() {
-        const activeTextarea = activeCodeTab === 'css' ? codeOutputCSS : null;
+        const activeTextarea = activeCodeTab === 'css' ? codeOutputCSS : codeOutputTailwind;
         activeTextarea.select();
         document.execCommand('copy');
         
@@ -492,6 +492,32 @@ filter: blur(${blur}px)
         });
       });
 
+      // Code tab switching
+      codeTabBtns.forEach(btn => {
+        btn.addEventListener('click', function() {
+          const tabName = this.dataset.tab;
+          
+          // Update active state
+          codeTabBtns.forEach(b => {
+            b.classList.remove('active', 'border-b-2', 'border-blue-500', 'text-blue-500');
+            b.classList.add('border-transparent', 'text-gray-600');
+          });
+          
+          this.classList.add('active', 'border-b-2', 'border-blue-500', 'text-blue-500');
+          this.classList.remove('border-transparent', 'text-gray-600');
+          
+          // Toggle textarea visibility
+          if (tabName === 'css') {
+            codeOutputCSS.classList.remove('hidden');
+            codeOutputTailwind.classList.add('hidden');
+          } else {
+            codeOutputCSS.classList.add('hidden');
+            codeOutputTailwind.classList.remove('hidden');
+          }
+          
+          activeCodeTab = tabName;
+        });
+      });
     }
 
     // Initialize the application
