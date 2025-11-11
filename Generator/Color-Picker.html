@@ -9,20 +9,18 @@
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/boxicons@2.1.4/css/boxicons.min.css">
   <style>
     :root {
-      --bg-primary: #f5fbfc;
-      --accent: #9fced6;
-      --primary: #1bc5ba;
-    }
-
-    :root {
-      --primary-color: #4f46e5;
-      --secondary-color: #6366f1;
-      --accent-color: #a5b4fc;
-      --light-bg: #f8fafc;
-      --dark-bg: #1e293b;
-      --text-color: #334155;
+      --primary: #6366f1;
+      --primary-light: #818cf8;
+      --accent: #06b6d4;
+      --accent-light: #22d3ee;
+      --bg-primary: #f8fafc;
+      --bg-secondary: #f1f5f9;
+      --bg-tertiary: #e2e8f0;
+      --text-primary: #1e293b;
+      --text-secondary: #475569;
+      --border-color: #e2e8f0;
       --border-radius: 12px;
-      --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08), 0 4px 6px -2px rgba(0, 0, 0, 0.04);
       --transition: all 0.3s ease;
     }
 
@@ -34,6 +32,9 @@
 
     body {
       font-family: 'Oswald', sans-serif;
+      background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 100%);
+      min-height: 100vh;
+      overflow: hidden;
     }
 
     input[type="file"] {
@@ -46,7 +47,7 @@
       height: 20px;
       border-radius: 50%;
       border: 2px solid white;
-      box-shadow: 0 0 0 1px black;
+      box-shadow: 0 0 0 1px #1e293b;
       pointer-events: none;
       transform: translate(-50%, -50%);
       display: none;
@@ -57,7 +58,7 @@
       content: '';
       position: absolute;
       background-color: white;
-      box-shadow: 0 0 0 1px black;
+      box-shadow: 0 0 0 1px #1e293b;
     }
 
     .crosshair::before {
@@ -81,111 +82,142 @@
       height: auto;
       object-fit: contain;
     }
+
+    /* Custom scrollbar styling for better appearance */
+    ::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: var(--bg-secondary);
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: var(--accent);
+      border-radius: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: var(--primary);
+    }
   </style>
 </head>
-<body class="bg-gradient-to-br from-[#f5fbfc] to-[#e8f4f6] text-gray-700 leading-relaxed min-h-screen flex flex-col overflow-x-hidden">
-  <nav class="bg-white shadow-sm border-b border-[#9fced6]/20">
-    <div class="max-w-7xl mx-auto px-4 py-4 flex items-center justify-between">
-      <div class="flex items-center gap-3">
-        <i class='bx bx-palette text-[#1bc5ba] text-2xl'></i>
-        <h1 class="text-xl font-bold text-[#1bc5ba]">StyleGen</h1>
-      </div>
-      <div class="flex gap-6 text-sm text-gray-600">
-        <a href="#" class="hover:text-[#1bc5ba] transition">Home</a>
-        <a href="#" class="hover:text-[#1bc5ba] transition">Docs</a>
-        <a href="#" class="hover:text-[#1bc5ba] transition">GitHub</a>
-      </div>
-    </div>
-  </nav>
+<body class="text-[var(--text-primary)] leading-relaxed min-h-screen flex flex-col overflow-hidden">
 
-  <div class="max-w-7xl w-full mx-auto px-4 flex flex-col flex-1 py-8">
-    <header class="text-center mb-8">
-      <h2 class="text-4xl font-bold text-[#1bc5ba] mb-2">Image Color Picker</h2>
-      <p class="text-base text-gray-600">Upload an image and extract colors with precision</p>
+  <!-- Full-width container with no max-width constraint for desktop utilization -->
+  <div class="w-full h-screen flex flex-col overflow-y-auto">
+    
+    <!-- Header -->
+    <header class="px-8 py-6 border-b border-[var(--border-color)] bg-white/40 backdrop-blur-sm flex-shrink-0">
+      <div class="text-center">
+        <h2 class="text-3xl font-bold text-[var(--primary)] mb-1">Image Color Picker</h2>
+        <p class="text-sm text-[var(--text-secondary)]">Upload an image and extract colors with precision</p>
+      </div>
     </header>
 
-    <div class="grid grid-cols-1 lg:grid-cols-[1fr_380px] gap-6 flex-1 mb-8">
-      <div class="bg-white rounded-lg shadow-md p-6 flex flex-col gap-6" style="border: 2px solid #9fced6/30;">
+    <!-- Main Content -->
+    <div class="flex-1 overflow-y-auto">
+      <div class="px-8 py-6 h-full flex flex-col gap-6">
         
-      <div class="relative flex justify-center items-center bg-slate-50 rounded-lg overflow-hidden w-full" id="image-container" style="aspect-ratio: 1;">
-        <div class="flex flex-col items-center justify-center p-12 bg-slate-50 rounded-lg border-2 border-dashed border-[#9fced6] w-full h-full" id="placeholder">
-          <i class='bx bx-image text-4xl text-[#9fced6] mb-4'></i>
-          <p class="text-slate-500 text-center">No image selected. Upload an image to get started.</p>
-        </div>
-        <img id="image" src="/placeholder.svg" class="absolute top-0 left-0 w-full h-full object-contain hidden" />
-        <canvas id="color-canvas" class="absolute top-0 left-0 w-full h-full"></canvas>
-        <div class="crosshair" id="crosshair"></div>
-      </div>
-
-        
-        <div class="flex gap-4 flex-wrap">
-          <input type="file" id="file" accept="image/*" />
-          <label for="file" class="inline-flex items-center justify-center px-5 py-3 bg-[#1bc5ba] text-white border-none rounded-lg font-semibold text-sm cursor-pointer transition-all hover:bg-[#15a89e] gap-2 flex-1 sm:flex-none">
-            <i class='bx bx-upload'></i>
-            Upload Image
-          </label>
-          <button id="manual-pick" class="inline-flex items-center justify-center px-5 py-3 bg-white text-[#1bc5ba] border-2 border-[#1bc5ba] rounded-lg font-semibold text-sm cursor-pointer transition-all hover:bg-[#1bc5ba] hover:text-white gap-2 flex-1 sm:flex-none">
-            <i class='bx bx-crosshair'></i>
-            Pick Color
-          </button>
-        </div>
-        
-        <div id="error" class="hidden text-red-600 px-3 py-3 bg-red-50 rounded-lg text-sm"></div>
-      </div>
-
-      <div class="bg-white border-b-2 border-[var(--accent)] rounded-lg shadow-md p-6 flex flex-col gap-6 h-fit sticky top-20" style="border: 2px solid #9fced6/30;">
-        <div class="flex flex-col gap-4">
-          <h3 class="text-lg font-semibold text-[#1bc5ba] flex items-center gap-2">
-            <i class='bx bx-droplet'></i>
-            Selected Color
-          </h3>
-          <div class="flex flex-col gap-3">
-            <div class="h-20 rounded-lg shadow-md transition-all border-2 border-[#9fced6]/50" id="picked-color-ref" style="background-color: #9fced6;"></div>
-            <div class="flex items-center gap-2">
-              <input type="text" id="hex-val-ref" placeholder="Hex Value" readonly class="flex-1 px-4 py-2 border-2 border-[#9fced6]/50 rounded-lg font-inherit text-sm focus:outline-none focus:border-[#1bc5ba]" />
-              <button onclick="copy('hex-val-ref')" class="px-4 py-2 bg-[#1bc5ba] text-white border-none rounded-lg cursor-pointer transition-all hover:bg-[#15a89e] text-sm font-semibold">Copy</button>
+        <!-- Main grid with better space utilization -->
+        <div class="grid grid-cols-1 xl:grid-cols-[1.2fr_380px] gap-6 flex-1">
+          
+          <!-- Image Container Section -->
+          <div class="bg-white rounded-xl shadow-sm border border-[var(--border-color)] p-6 flex flex-col gap-5 overflow-y-auto">
+            
+            <!-- Image viewer with proper aspect ratio -->
+            <div class="relative flex justify-center items-center bg-[var(--bg-secondary)] rounded-lg overflow-hidden w-full flex-1 min-h-[300px]" id="image-container">
+              <div class="flex flex-col items-center justify-center p-12 bg-[var(--bg-secondary)] rounded-lg border-2 border-dashed border-[var(--accent-light)] w-full h-full" id="placeholder">
+                <i class='bx bx-image text-5xl text-[var(--accent-light)] mb-4'></i>
+                <p class="text-[var(--text-secondary)] text-center text-sm">No image selected. Upload an image to get started.</p>
+              </div>
+              <img id="image" src="/placeholder.svg" class="absolute top-0 left-0 w-full h-full object-contain hidden" />
+              <canvas id="color-canvas" class="absolute top-0 left-0 w-full h-full"></canvas>
+              <div class="crosshair" id="crosshair"></div>
             </div>
-            <div class="flex items-center gap-2">
-              <input type="text" id="rgb-val-ref" placeholder="RGB Value" readonly class="flex-1 px-4 py-2 border-2 border-[#9fced6]/50 rounded-lg font-inherit text-sm focus:outline-none focus:border-[#1bc5ba]" />
-              <button onclick="copy('rgb-val-ref')" class="px-4 py-2 bg-[#1bc5ba] text-white border-none rounded-lg cursor-pointer transition-all hover:bg-[#15a89e] text-sm font-semibold">Copy</button>
+
+            <!-- Action Buttons -->
+            <div class="flex gap-3 flex-wrap">
+              <input type="file" id="file" accept="image/*" />
+              <label for="file" class="inline-flex items-center justify-center px-5 py-3 bg-[var(--primary)] text-white border-none rounded-lg font-semibold text-sm cursor-pointer transition-all hover:bg-[var(--primary-light)] hover:shadow-md gap-2 flex-1 sm:flex-none">
+                <i class='bx bx-upload'></i>
+                Upload Image
+              </label>
+              <button id="manual-pick" class="inline-flex items-center justify-center px-5 py-3 bg-white text-[var(--primary)] border-2 border-[var(--primary)] rounded-lg font-semibold text-sm cursor-pointer transition-all hover:bg-[var(--primary)] hover:text-white gap-2 flex-1 sm:flex-none">
+                <i class='bx bx-crosshair'></i>
+                Pick Color
+              </button>
+            </div>
+            
+            <!-- Error Message -->
+            <div id="error" class="hidden text-red-600 px-4 py-3 bg-red-50 rounded-lg text-sm font-medium"></div>
+          </div>
+
+          <!-- Sidebar - Color Info Panel -->
+          <div class="bg-white border border-[var(--border-color)] rounded-xl shadow-sm p-6 flex flex-col gap-5 max-h-fit sticky top-6 overflow-y-auto max-h-[calc(100vh-180px)]">
+            
+            <!-- Selected Color -->
+            <div class="flex flex-col gap-4">
+              <h3 class="text-lg font-semibold text-[var(--primary)] flex items-center gap-2">
+                <i class='bx bx-droplet'></i>
+                Selected Color
+              </h3>
+              <div class="flex flex-col gap-3">
+                <div class="h-24 rounded-lg shadow-sm transition-all border-2 border-[var(--border-color)]" id="picked-color-ref" style="background-color: #06b6d4;"></div>
+                <div class="flex items-center gap-2 flex-col sm:flex-row">
+                  <input type="text" id="hex-val-ref" placeholder="Hex Value" readonly class="flex-1 px-3 py-2 border-2 border-[var(--border-color)] rounded-lg font-inherit text-sm focus:outline-none focus:border-[var(--accent)] transition-colors bg-[var(--bg-secondary)]" />
+                  <button onclick="copy('hex-val-ref')" class="px-4 py-2 bg-[var(--primary)] text-white border-none rounded-lg cursor-pointer transition-all hover:bg-[var(--primary-light)] text-sm font-semibold">Copy</button>
+                </div>
+                <div class="flex items-center gap-2 flex-col sm:flex-row">
+                  <input type="text" id="rgb-val-ref" placeholder="RGB Value" readonly class="flex-1 px-3 py-2 border-2 border-[var(--border-color)] rounded-lg font-inherit text-sm focus:outline-none focus:border-[var(--accent)] transition-colors bg-[var(--bg-secondary)]" />
+                  <button onclick="copy('rgb-val-ref')" class="px-4 py-2 bg-[var(--primary)] text-white border-none rounded-lg cursor-pointer transition-all hover:bg-[var(--primary-light)] text-sm font-semibold">Copy</button>
+                </div>
+              </div>
+            </div>
+
+            <!-- Instructions -->
+            <div class="px-4 py-3 bg-[var(--accent-light)]/10 rounded-lg border-l-4 border-[var(--accent)] text-xs leading-relaxed">
+              <p><span class="font-semibold">1.</span> Upload an image</p>
+              <p><span class="font-semibold">2.</span> Click "Pick Color"</p>
+              <p><span class="font-semibold">3.</span> Click on any color</p>
+            </div>
+
+            <!-- Color Palette -->
+            <div class="flex flex-col gap-4">
+              <h3 class="text-lg font-semibold text-[var(--primary)] flex items-center gap-2">
+                <i class='bx bx-palette'></i>
+                Palette
+              </h3>
+              <div id="palette-container" class="grid grid-cols-4 gap-2"></div>
             </div>
           </div>
+
         </div>
 
-        <div class="px-4 py-3 bg-[#9fced6]/10 rounded-lg border-l-4 border-[#1bc5ba] text-xs leading-relaxed">
-          <p><span class="font-semibold">1.</span> Upload an image</p>
-          <p><span class="font-semibold">2.</span> Click "Pick Color"</p>
-          <p><span class="font-semibold">3.</span> Click on any color in the image</p>
+        <!-- Code Output Section -->
+        <div class="bg-white rounded-xl shadow-sm border border-[var(--border-color)] p-6 flex-shrink-0">
+          <div class="flex items-center justify-between mb-4 flex-wrap gap-2">
+            <h3 class="text-lg font-semibold text-[var(--primary)] flex items-center gap-2">
+              <i class='bx bx-code'></i>
+              Output Code
+            </h3>
+            <button onclick="copyCode()" class="px-4 py-2 bg-[var(--accent)] text-white border-none rounded-lg cursor-pointer transition-all hover:bg-[var(--accent-light)] text-sm font-semibold flex items-center gap-2">
+              <i class='bx bx-copy-alt'></i> Copy
+            </button>
+          </div>
+          <pre class="bg-[var(--text-primary)] text-[var(--accent-light)] p-4 rounded-lg overflow-x-auto text-xs font-mono max-h-20"><code id="code-output">/* Your extracted colors will appear here */
+/* HEX: #06b6d4 */
+/* RGB: rgb(6, 182, 212) */</code></pre>
         </div>
 
-        <div class="flex flex-col gap-4">
-          <h3 class="text-lg font-semibold text-[#1bc5ba] flex items-center gap-2">
-            <i class='bx bx-palette'></i>
-            Palette
-          </h3>
-          <div id="palette-container" class="grid grid-cols-4 gap-2"></div>
-        </div>
       </div>
-    </div>
-
-    <div class="bg-white rounded-lg shadow-md p-6" style="border: 2px solid #9fced6/30;">
-      <div class="flex items-center justify-between mb-4">
-        <h3 class="text-lg font-semibold text-[#1bc5ba] flex items-center gap-2">
-          <i class='bx bx-code'></i>
-          Output Code
-        </h3>
-        <button onclick="copyCode()" class="px-4 py-2 bg-[#1bc5ba] text-white border-none rounded-lg cursor-pointer transition-all hover:bg-[#15a89e] text-sm font-semibold">
-          <i class='bx bx-copy-alt'></i> Copy
-        </button>
-      </div>
-      <pre class="bg-gray-900 text-green-400 p-4 rounded-lg overflow-x-auto text-xs"><code id="code-output">/* Your extracted colors will appear here */
-/* HEX: #9fced6 */
-/* RGB: rgb(159, 206, 214) */</code></pre>
     </div>
 
   </div>
 
-  <div id="custom-alert" class="fixed bottom-5 right-5 px-6 py-3 bg-[#1bc5ba] text-white rounded-lg shadow-lg transform translate-y-28 opacity-0 transition-all z-50 text-sm font-semibold">
+  <!-- Toast Notification -->
+  <div id="custom-alert" class="fixed bottom-5 right-5 px-6 py-3 bg-[var(--primary)] text-white rounded-lg shadow-lg transform translate-y-28 opacity-0 transition-all z-50 text-sm font-semibold">
     Copied to clipboard!
   </div>
 
@@ -226,7 +258,7 @@
       isManualPickActive = !isManualPickActive;
       
       if (isManualPickActive) {
-        manualPick.style.backgroundColor = "#1bc5ba";
+        manualPick.style.backgroundColor = "var(--primary)";
         manualPick.style.color = "white";
         imageContainer.style.cursor = "crosshair";
         imageContainer.addEventListener("mousemove", showColorUnderCursor);
@@ -338,7 +370,7 @@
       
       colors.forEach(color => {
         let colorDiv = document.createElement('div');
-        colorDiv.classList.add('w-full', 'aspect-square', 'rounded-lg', 'shadow-md', 'cursor-pointer', 'transition-all', 'hover:scale-110', 'hover:shadow-lg', 'border', 'border-[#9fced6]/30');
+        colorDiv.classList.add('w-full', 'aspect-square', 'rounded-lg', 'shadow-sm', 'cursor-pointer', 'transition-all', 'hover:scale-110', 'hover:shadow-md', 'border', 'border-[var(--border-color)]');
         colorDiv.style.backgroundColor = color;
         colorDiv.title = color;
         
