@@ -1,7 +1,7 @@
 <template>
   <div class="min-h-screen flex flex-col" style="background:var(--bg)">
     <!-- Top bar -->
-    <div class="bg-white border-b px-4 sm:px-6 py-3 flex items-center gap-3 sticky top-0 z-10" style="border-color:var(--border)">
+    <div class="bg-white border-b px-4 sm:px-6 py-3 flex items-center gap-3 sticky top-0 z-50" style="border-color:var(--border)">
       <router-link to="/" class="inline-flex items-center gap-1.5 text-sm font-medium transition-colors shrink-0"
         style="color:var(--text-light)" onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-light)'">
         <i class="bx bx-arrow-back"></i>
