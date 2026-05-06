@@ -23,6 +23,17 @@ export function buildGradientCSS(s) {
   return { grad, css: `background: ${grad};` }
 }
 
+export function buildGradientTailwind(s) {
+  if (s.type === 'radial') {
+    return `<!-- Radial gradient requires arbitrary value -->\n<div class="bg-[radial-gradient(circle,${s.color1},${s.color2})]">\n  <!-- your content -->\n</div>`
+  }
+  // Map angle to Tailwind direction
+  const dirMap = { 0:'to-t', 45:'to-tr', 90:'to-r', 135:'to-br', 180:'to-b', 225:'to-bl', 270:'to-l', 315:'to-tl' }
+  const closest = Object.keys(dirMap).reduce((a, b) => Math.abs(b - s.angle) < Math.abs(a - s.angle) ? b : a)
+  const dir = dirMap[closest]
+  return `<div class="bg-gradient-${dir} from-[${s.color1}] to-[${s.color2}]">\n  <!-- your content -->\n</div>`
+}
+
 export const GRADIENT_PRESETS = [
   { color1: '#ff9a9e', color2: '#fad0c4' },
   { color1: '#a18cd1', color2: '#fbc2eb' },

@@ -171,6 +171,27 @@ input[type="color"]::-webkit-color-swatch { border: none; border-radius: 6px; }
   background: var(--border);
 }
 
+/* Preset button — used in generator header and views */
+.sg-preset-btn {
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  font-weight: 600;
+  border: 1.5px solid var(--border-md);
+  background: var(--bg-card);
+  color: var(--text-light);
+  cursor: pointer;
+  transition: all 0.15s;
+  white-space: nowrap;
+  display: inline-flex;
+  align-items: center;
+}
+.sg-preset-btn:hover {
+  border-color: var(--primary);
+  color: var(--primary);
+  background: #dcfce7;
+}
+
 /* Label */
 .sg-label {
   font-size: 0.6875rem;
