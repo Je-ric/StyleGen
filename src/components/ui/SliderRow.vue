@@ -1,13 +1,22 @@
 <template>
-  <div class="flex items-center gap-3">
-    <label class="text-sm font-medium min-w-[90px] shrink-0" style="color:var(--text-dark)">{{ label }}</label>
+  <div class="flex flex-col gap-1">
+    <div class="flex items-center justify-between">
+      <label class="text-xs font-semibold" style="color:var(--text-light)">{{ label }}</label>
+      <span class="text-xs font-bold tabular-nums" style="color:var(--primary)">{{ modelValue }}{{ unit }}</span>
+    </div>
     <input type="range" :min="min" :max="max" :step="step" :value="modelValue"
-      @input="$emit('update:modelValue', +$event.target.value)" class="flex-1 min-w-0" />
-    <span class="text-sm font-bold min-w-[48px] text-right shrink-0" style="color:var(--primary)">{{ modelValue }}{{ unit }}</span>
+      @input="$emit('update:modelValue', +$event.target.value)" class="w-full" />
   </div>
 </template>
 
 <script setup>
-defineProps({ label: String, modelValue: Number, min: { type: Number, default: 0 }, max: { type: Number, default: 100 }, step: { type: Number, default: 1 }, unit: { type: String, default: '' } })
+defineProps({
+  label:      String,
+  modelValue: Number,
+  min:        { type: Number, default: 0 },
+  max:        { type: Number, default: 100 },
+  step:       { type: Number, default: 1 },
+  unit:       { type: String, default: '' },
+})
 defineEmits(['update:modelValue'])
 </script>
