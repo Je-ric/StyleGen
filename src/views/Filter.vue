@@ -3,10 +3,8 @@
     :css="css" :tailwind="tw">
     <template #presets>
       <button v-for="(_, name) in FILTER_PRESETS" :key="name" @click="applyPreset(name)" class="sg-preset-btn capitalize">{{ name }}</button>
-      <button @click="Object.assign(s, FILTER_DEFAULTS)" class="sg-preset-btn">Reset</button>
     </template>
 
-    <!-- md+: 3-col -->
     <div class="hidden md:grid grid-cols-[220px_1fr_220px] gap-5 items-start">
 
       <!-- Left: Basic + Color Effects -->
@@ -26,18 +24,24 @@
         </div>
       </div>
 
-      <!-- Center: Preview -->
-      <div class="sg-card p-6 flex flex-col gap-4 items-center">
-        <span class="sg-section-title w-full">Preview</span>
-        <div class="flex-1 w-full flex justify-center items-center min-h-72 bg-slate-100 rounded-xl overflow-hidden">
+      <!-- Center: Preview + actions -->
+      <div class="sg-card p-5 flex flex-col gap-4">
+        <span class="sg-section-title">Preview</span>
+        <div class="flex-1 flex justify-center items-center min-h-72 bg-slate-100 rounded-xl overflow-hidden">
           <img :src="imgSrc" alt="preview"
             class="max-w-full max-h-80 object-contain rounded-lg transition-all duration-300"
             :style="{ filter: filterValue }" />
         </div>
-        <label class="sg-btn sg-btn-ghost cursor-pointer w-full justify-center">
-          <i class="bx bx-upload"></i> Upload Image
-          <input type="file" accept="image/*" class="hidden" @change="onUpload" />
-        </label>
+        <!-- Actions below preview -->
+        <div class="flex gap-3">
+          <label class="sg-btn sg-btn-ghost cursor-pointer flex-1 justify-center">
+            <i class="bx bx-upload"></i> Upload Image
+            <input type="file" accept="image/*" class="hidden" @change="onUpload" />
+          </label>
+          <button @click="reset" class="sg-btn sg-btn-ghost flex-1 justify-center">
+            <i class="bx bx-reset"></i> Reset
+          </button>
+        </div>
       </div>
 
       <!-- Right: Advanced -->
@@ -48,10 +52,19 @@
       </div>
     </div>
 
-    <!-- Mobile: stacked -->
+    <!-- Mobile -->
     <div class="md:hidden flex flex-col gap-4">
-      <div class="sg-card p-4 flex justify-center items-center min-h-48 bg-slate-100 rounded-xl overflow-hidden">
-        <img :src="imgSrc" alt="preview" class="max-w-full max-h-48 object-contain" :style="{ filter: filterValue }" />
+      <div class="sg-card p-4 flex flex-col gap-3">
+        <div class="flex justify-center items-center min-h-48 bg-slate-100 rounded-xl overflow-hidden">
+          <img :src="imgSrc" alt="preview" class="max-w-full max-h-48 object-contain" :style="{ filter: filterValue }" />
+        </div>
+        <div class="flex gap-3">
+          <label class="sg-btn sg-btn-ghost cursor-pointer flex-1 justify-center">
+            <i class="bx bx-upload"></i> Upload
+            <input type="file" accept="image/*" class="hidden" @change="onUpload" />
+          </label>
+          <button @click="reset" class="sg-btn sg-btn-ghost flex-1 justify-center"><i class="bx bx-reset"></i> Reset</button>
+        </div>
       </div>
       <div class="sg-card p-4 flex flex-col gap-3">
         <SliderRow v-model="s.brightness" label="Brightness" :max="200" unit="%" />
@@ -79,6 +92,7 @@ const css = computed(() => buildFilterCSS(s))
 const tw  = computed(() => buildFilterTailwind(s))
 
 function applyPreset(name) { Object.assign(s, FILTER_PRESETS[name]) }
+function reset() { Object.assign(s, FILTER_DEFAULTS); imgSrc.value = DEFAULT_IMG }
 
 function onUpload(e) {
   const file = e.target.files[0]

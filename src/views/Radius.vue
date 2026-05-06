@@ -5,10 +5,9 @@
       <button v-for="(_, name) in RADIUS_PRESETS" :key="name" @click="applyPreset(name)" class="sg-preset-btn capitalize">{{ name }}</button>
     </template>
 
-    <!-- md+: 3-col -->
     <div class="hidden md:grid grid-cols-[220px_1fr_220px] gap-5 items-start">
 
-      <!-- Left: TL + TR corners -->
+      <!-- Left: TL + BL + Border -->
       <div class="flex flex-col gap-4">
         <div class="sg-card p-4 flex flex-col gap-3">
           <p class="sg-label">Top Left</p>
@@ -25,18 +24,21 @@
         </div>
       </div>
 
-      <!-- Center: Preview -->
-      <div class="sg-card p-6 flex flex-col gap-4 items-center">
-        <span class="sg-section-title w-full">Preview</span>
-        <div class="flex-1 w-full flex justify-center items-center min-h-72 bg-slate-50 rounded-xl border" style="border-color:var(--border)">
+      <!-- Center: Preview + actions -->
+      <div class="sg-card p-5 flex flex-col gap-4">
+        <span class="sg-section-title">Preview</span>
+        <div class="flex-1 flex justify-center items-center min-h-72 bg-slate-50 rounded-xl border" style="border-color:var(--border)">
           <div class="w-48 h-48 flex items-center justify-center text-sm font-medium transition-all duration-300"
             style="color:var(--text-light)" :style="previewStyle">
             Preview
           </div>
         </div>
+        <button @click="reset" class="sg-btn sg-btn-ghost w-full justify-center">
+          <i class="bx bx-reset"></i> Reset
+        </button>
       </div>
 
-      <!-- Right: BR + BL corners + Background -->
+      <!-- Right: TR + BR + Background -->
       <div class="flex flex-col gap-4">
         <div class="sg-card p-4 flex flex-col gap-3">
           <p class="sg-label">Top Right</p>
@@ -53,7 +55,7 @@
       </div>
     </div>
 
-    <!-- Mobile: stacked -->
+    <!-- Mobile -->
     <div class="md:hidden flex flex-col gap-4">
       <div class="sg-card p-4 flex flex-col gap-3">
         <SliderRow v-model="s.tl" label="Top Left" unit="px" />
@@ -61,8 +63,11 @@
         <SliderRow v-model="s.br" label="Bottom Right" unit="px" />
         <SliderRow v-model="s.bl" label="Bottom Left" unit="px" />
       </div>
-      <div class="sg-card p-4 flex justify-center items-center min-h-48 bg-slate-50">
-        <div class="w-36 h-36 flex items-center justify-center text-sm transition-all" style="color:var(--text-light)" :style="previewStyle">Preview</div>
+      <div class="sg-card p-4 flex flex-col gap-3">
+        <div class="flex justify-center items-center min-h-48 bg-slate-50 rounded-xl">
+          <div class="w-36 h-36 flex items-center justify-center text-sm transition-all" style="color:var(--text-light)" :style="previewStyle">Preview</div>
+        </div>
+        <button @click="reset" class="sg-btn sg-btn-ghost w-full justify-center"><i class="bx bx-reset"></i> Reset</button>
       </div>
     </div>
   </GeneratorLayout>
@@ -75,7 +80,8 @@ import SliderRow from '../components/ui/SliderRow.vue'
 import ColorRow from '../components/ui/ColorRow.vue'
 import { buildRadiusCSS, buildRadiusTailwind, RADIUS_PRESETS } from '../utils/radiusGen.js'
 
-const s = reactive({ tl: 0, tr: 0, br: 0, bl: 0, borderWidth: 3, borderColor: '#000000', bgColor: '#ffffff' })
+const DEFAULTS = { tl: 0, tr: 0, br: 0, bl: 0, borderWidth: 3, borderColor: '#000000', bgColor: '#ffffff' }
+const s = reactive({ ...DEFAULTS })
 
 const previewStyle = computed(() => ({
   borderRadius: `${s.tl}px ${s.tr}px ${s.br}px ${s.bl}px`,
@@ -90,6 +96,7 @@ const tw  = computed(() => buildRadiusTailwind(s))
 
 function applyPreset(name) {
   Object.assign(s, RADIUS_PRESETS[name])
-  if (name === 'reset') Object.assign(s, { borderWidth: 3, borderColor: '#000000', bgColor: '#ffffff' })
+  if (name === 'reset') Object.assign(s, DEFAULTS)
 }
+function reset() { Object.assign(s, DEFAULTS) }
 </script>

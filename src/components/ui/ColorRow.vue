@@ -1,9 +1,8 @@
 <template>
-  <div class="flex items-center gap-2 mb-3 flex-wrap">
-    <label class="text-sm font-medium min-w-[100px]" style="color:var(--text-dark)">{{ label }}:</label>
+  <div class="flex items-center gap-2 flex-wrap">
+    <label class="text-sm font-medium min-w-[90px] shrink-0" style="color:var(--text-dark)">{{ label }}</label>
     <input type="color" :value="modelValue" @input="$emit('update:modelValue', $event.target.value)" />
-    <input type="text" :value="modelValue" @input="onHex" placeholder="#000000"
-      class="sg-input w-24 text-sm" />
+    <input type="text" :value="modelValue" @input="onHex" placeholder="#000000" class="sg-input w-24 text-sm" />
   </div>
 </template>
 

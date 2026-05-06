@@ -10,7 +10,6 @@
       </div>
     </template>
 
-    <!-- md+: 3-col -->
     <div class="hidden md:grid grid-cols-[220px_1fr_220px] gap-5 items-start">
 
       <!-- Left: Type + Colors -->
@@ -19,7 +18,7 @@
           <p class="sg-label">Type</p>
           <div class="flex gap-2">
             <button v-for="t in ['linear','radial']" :key="t" @click="s.type = t"
-              :class="['sg-preset-btn flex-1 capitalize', s.type === t ? '!bg-green-100 !border-green-500 !text-green-700' : '']">
+              :class="['sg-preset-btn flex-1 justify-center capitalize', s.type === t ? '!bg-green-100 !border-green-500 !text-green-700' : '']">
               {{ t }}
             </button>
           </div>
@@ -28,20 +27,23 @@
           <p class="sg-label">Colors</p>
           <ColorRow v-model="s.color1" label="Color 1" />
           <ColorRow v-model="s.color2" label="Color 2" />
-          <button @click="shuffle" class="sg-btn sg-btn-ghost w-full">
+          <button @click="shuffle" class="sg-btn sg-btn-ghost w-full justify-center">
             <i class="bx bx-shuffle"></i> Shuffle
           </button>
         </div>
       </div>
 
-      <!-- Center: Preview -->
-      <div class="sg-card p-6 flex flex-col gap-4 items-center">
-        <span class="sg-section-title w-full">Preview</span>
-        <div class="flex-1 w-full min-h-72 rounded-xl border-2 border-dashed flex items-center justify-center text-xs font-medium transition-all duration-300"
+      <!-- Center: Preview + actions -->
+      <div class="sg-card p-5 flex flex-col gap-4">
+        <span class="sg-section-title">Preview</span>
+        <div class="flex-1 min-h-72 rounded-xl border-2 border-dashed flex items-center justify-center text-xs font-medium transition-all duration-300"
           style="border-color:rgba(255,255,255,0.5);color:rgba(255,255,255,0.8)"
           :style="{ background: gradientValue }">
           Preview
         </div>
+        <button @click="reset" class="sg-btn sg-btn-ghost w-full justify-center">
+          <i class="bx bx-reset"></i> Reset
+        </button>
       </div>
 
       <!-- Right: Properties -->
@@ -49,11 +51,11 @@
         <p class="sg-label">Properties</p>
         <SliderRow v-model="s.opacity" label="Opacity" :max="1" :step="0.1" />
         <SliderRow v-model="s.angle" label="Angle" :max="360" unit="°" />
-        <div v-if="s.type === 'linear'" class="mt-2">
+        <div v-if="s.type === 'linear'" class="flex flex-col gap-2 pt-1">
           <p class="sg-label">Quick Direction</p>
           <div class="grid grid-cols-4 gap-1.5">
             <button v-for="(deg, label) in DIRECTIONS" :key="label" @click="s.angle = deg"
-              :class="['sg-preset-btn text-center', s.angle === deg ? '!bg-green-100 !border-green-500 !text-green-700' : '']">
+              :class="['sg-preset-btn justify-center', s.angle === deg ? '!bg-green-100 !border-green-500 !text-green-700' : '']">
               {{ label }}
             </button>
           </div>
@@ -61,14 +63,17 @@
       </div>
     </div>
 
-    <!-- Mobile: stacked -->
+    <!-- Mobile -->
     <div class="md:hidden flex flex-col gap-4">
       <div class="sg-card p-4 flex flex-col gap-3">
         <ColorRow v-model="s.color1" label="Color 1" />
         <ColorRow v-model="s.color2" label="Color 2" />
         <SliderRow v-model="s.angle" label="Angle" :max="360" unit="°" />
       </div>
-      <div class="w-full min-h-40 rounded-xl" :style="{ background: gradientValue }"></div>
+      <div class="sg-card p-4 flex flex-col gap-3">
+        <div class="w-full min-h-40 rounded-xl" :style="{ background: gradientValue }"></div>
+        <button @click="reset" class="sg-btn sg-btn-ghost w-full justify-center"><i class="bx bx-reset"></i> Reset</button>
+      </div>
     </div>
   </GeneratorLayout>
 </template>
@@ -80,8 +85,8 @@ import SliderRow from '../components/ui/SliderRow.vue'
 import ColorRow from '../components/ui/ColorRow.vue'
 import { buildGradientCSS, buildGradientTailwind, randomHex, GRADIENT_PRESETS } from '../utils/gradientGen.js'
 
-const s = reactive({ type: 'linear', color1: '#000000', color2: '#ffffff', opacity: 1, angle: 45 })
-
+const DEFAULTS = { type: 'linear', color1: '#000000', color2: '#ffffff', opacity: 1, angle: 45 }
+const s = reactive({ ...DEFAULTS })
 const DIRECTIONS = { '↑':0, '↗':45, '→':90, '↘':135, '↓':180, '↙':225, '←':270, '↖':315 }
 
 const gradientValue = computed(() => buildGradientCSS(s).grad)
@@ -89,4 +94,5 @@ const css = computed(() => buildGradientCSS(s).css)
 const tw  = computed(() => buildGradientTailwind(s))
 
 function shuffle() { s.color1 = randomHex(); s.color2 = randomHex() }
+function reset() { Object.assign(s, DEFAULTS) }
 </script>
