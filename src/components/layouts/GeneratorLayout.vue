@@ -3,7 +3,7 @@
     <!-- Top bar -->
     <div class="bg-white border-b px-4 sm:px-6 py-3 flex items-center gap-3 sticky top-0 z-50"
       style="border-color:var(--border);box-shadow:var(--shadow-sm)">
-      <router-link to="/" class="inline-flex items-center gap-1.5 text-sm font-medium transition-colors shrink-0"
+      <router-link to="/" aria-label="Back to all generators" class="inline-flex items-center gap-1.5 text-sm font-medium transition-colors shrink-0"
         style="color:var(--text-light)"
         onmouseover="this.style.color='var(--primary)'" onmouseout="this.style.color='var(--text-light)'">
         <i class="bx bx-arrow-back"></i>
@@ -22,7 +22,7 @@
       </div>
 
       <!-- View CSS button -->
-      <button @click="showModal = true"
+      <button aria-label="View generated CSS" @click="showModal = true"
         class="inline-flex items-center gap-1.5 text-xs font-bold px-3 py-1.5 rounded-lg shrink-0 transition-all text-white"
         style="background:linear-gradient(90deg,#15803d,#22c55e)"
         onmouseover="this.style.filter='brightness(1.1)'" onmouseout="this.style.filter=''">

@@ -202,3 +202,28 @@ input[type="color"]::-webkit-color-swatch { border: none; border-radius: 6px; }
   display: block;
   margin-bottom: 0.375rem;
 }
+
+/* Tool discovery */
+.tool-directory { max-width: 1440px; margin: 0 auto; scroll-margin-top: 85px; }
+.directory-heading { display:flex; align-items:center; justify-content:space-between; gap:24px; margin-bottom:24px; }
+.directory-title { font-size:30px; margin-bottom:6px; }
+.directory-heading p, .results-summary { color:var(--text-light); font-size:14px; }
+.tool-search { display:flex; align-items:center; gap:10px; padding:12px 16px; background:white; border:1px solid var(--border-md); border-radius:12px; width:min(100%, 360px); }
+.tool-search input { width:100%; min-width:0; background:transparent; font-size:14px; }
+.tool-filters { display:flex; flex-wrap:wrap; gap:8px; margin-bottom:28px; }
+.filter-chip { padding:9px 16px; border:1px solid var(--border); border-radius:99px; font-size:13px; font-weight:600; background:white; color:var(--text-light); }
+.filter-chip.active { background:var(--text-dark); border-color:var(--text-dark); color:white; }
+.favorites-filter { margin-left:auto; }
+.favorites-filter span { margin-left:6px; }
+.generator-tile { position:relative; display:flex; min-width:0; }
+.generator-tile .gen-card { width:100%; min-height:205px; }
+.favorite-toggle { position:absolute; top:14px; right:14px; z-index:1; width:36px; height:36px; border-radius:10px; font-size:24px; color:var(--text-light); background:white; }
+.favorite-toggle:hover, .favorite-toggle.saved { background:#dcfce7; color:#15803d; }
+.empty-tools { padding:52px 20px; text-align:center; border:1px dashed var(--border-md); border-radius:16px; background:white; }
+.empty-tools > i { font-size:32px; }
+.empty-tools h3 { font-size:24px; margin:12px 0 8px; }
+.empty-tools p { margin-bottom:20px; color:var(--text-light); }
+.results-summary { margin-top:20px; }
+a:focus-visible, button:focus-visible, input:focus-visible { outline:2px solid var(--primary-dark); outline-offset:4px; }
+@media (max-width:640px) { .directory-heading { align-items:stretch; flex-direction:column; } .tool-search { width:100%; } .favorites-filter { margin-left:0; } }
+@media (prefers-reduced-motion: reduce) { *, *::before, *::after { animation:none !important; transition:none !important; scroll-behavior:auto !important; } }
