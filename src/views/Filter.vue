@@ -81,7 +81,7 @@ import GeneratorLayout from '../components/layouts/GeneratorLayout.vue'
 import SliderRow from '../components/ui/SliderRow.vue'
 import { buildFilterCSS, buildFilterTailwind, FILTER_DEFAULTS, FILTER_PRESETS } from '../utils/filterGen.js'
 
-const DEFAULT_IMG = 'https://images.unsplash.com/photo-1682687982501-1e58ab814714?w=600'
+const DEFAULT_IMG = new URL('../assets/filter-sample.svg', import.meta.url).href
 const imgSrc = ref(DEFAULT_IMG)
 const s = reactive({ ...FILTER_DEFAULTS })
 
